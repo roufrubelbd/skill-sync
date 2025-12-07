@@ -7,6 +7,7 @@ import Login from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register";
 import PrivateRoute from "./PrivateRoute";
 import DashboardLayout from "../Layouts/DashboardLayout";
+import Profile from "../pages/Profile/Profile";
 
 
 export const router = createBrowserRouter([
@@ -72,7 +73,7 @@ export const router = createBrowserRouter([
         path: 'profile',
         element: (
           <PrivateRoute>
-            {/* <Profile /> */}
+            <Profile />
           </PrivateRoute>
         ),
       },

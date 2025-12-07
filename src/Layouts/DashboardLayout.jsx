@@ -15,7 +15,7 @@ const DashboardLayout = () => {
       {isLoading ? (
         <LottieLoader />
       ) : (
-        <div className="min-h-screen md:flex">
+        <div className="min-h-screen md:flex w-11/12 mx-auto gap-6 py-10">
           {/* left side | sidebar */}
           <div>
             <Dashboard />
