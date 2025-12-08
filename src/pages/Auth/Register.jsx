@@ -15,8 +15,11 @@ const Register = () => {
   const handleRegister = (event) => {
     event.preventDefault();
     const form = event.target;
+
+    const name = form.name.value;
     const email = form.email.value;
     const password = form.password.value;
+    const photoURL = form.photoURL.value;
 
     if (!/[A-Z]/.test(password)) {
       toast.error("Password must contain at least one uppercase letter");
@@ -34,22 +37,33 @@ const Register = () => {
     createUser(email, password)
       .then((result) => {
         const user = result.user;
-        const name = form.name.value;
-        const photoURL = form.photoURL.value;
+
         updateProfile(user, {
           displayName: name,
           photoURL: photoURL,
-        })
-          .then(() => {
-            setUser({ ...user, displayName: name, photoURL: photoURL });
-            toast.success("User registered successfully!");
-            form.reset();
-            navigate("/");
-          })
-          .catch((error) => {
-            toast.error(error.message);
+        }).then(() => {
+          const saveUser = {
+            name,
+            email,
+            photoURL,
+            role: "user",
+            createdAt: new Date(),
+          };
+
+          //  SAVE USER TO DATABASE
+          fetch(`${import.meta.env.VITE_API_URL}/users`, {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+            },
+            body: JSON.stringify(saveUser),
           });
-        setLoading(false);
+
+          setUser({ ...user, displayName: name, photoURL });
+          toast.success("User registered successfully!");
+          form.reset();
+          navigate("/");
+        });
       })
       .catch((error) => {
         toast.error(error.message);
@@ -61,38 +75,77 @@ const Register = () => {
     googleLogin()
       .then((result) => {
         const user = result.user;
+
+        const saveUser = {
+          name: user.displayName,
+          email: user.email,
+          photoURL: user.photoURL,
+          role: "user",
+          createdAt: new Date(),
+        };
+
+        //  SAVE GOOGLE USER TO DATABASE
+        fetch(`${import.meta.env.VITE_API_URL}/users`, {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(saveUser),
+        });
+
         setUser(user);
         toast.success("User logged in successfully!");
         navigate(location?.state?.from?.pathname || "/");
         setLoading(false);
       })
       .catch((error) => {
-        // console.error(error);
         toast.error(error.message);
         setLoading(false);
       });
   };
+
   return (
     <div className=" bg-linear-to-r from-warning to-black mt-6  text-center min-h-screen flex items-center justify-center">
-      <div className={`p-6 ${theme === "light" ? "bg-white" : "bg-gray-200"} rounded-lg shadow-sm space-y-2 w-4/5 md:w-1/3 lg:w-1/3 mx-auto border border-base-300`}>
+      <div
+        className={`p-6 ${
+          theme === "light" ? "bg-white" : "bg-gray-200"
+        } rounded-lg shadow-sm space-y-2 w-4/5 md:w-1/3 lg:w-1/3 mx-auto border border-base-300`}
+      >
         <h1 className="text-2xl font-bold text-info">Register here!</h1>
-        <form onSubmit={handleRegister} className={` ${theme === "light" ? "bg-white" : "bg-gray-200"}  space-y-2`}>
+        <form
+          onSubmit={handleRegister}
+          className={` ${
+            theme === "light" ? "bg-white" : "bg-gray-200"
+          }  space-y-2`}
+        >
           <input
             type="text"
             name="name"
-            className={`input w-full ${theme === "light" ? "input-bordered" : "input-bordered bg-white text-black"}`}
+            className={`input w-full ${
+              theme === "light"
+                ? "input-bordered"
+                : "input-bordered bg-white text-black"
+            }`}
             placeholder="Your Name"
           />
           <input
             type="email"
             name="email"
-            className={`input w-full ${theme === "light" ? "input-bordered" : "input-bordered bg-white text-black"}`}
+            className={`input w-full ${
+              theme === "light"
+                ? "input-bordered"
+                : "input-bordered bg-white text-black"
+            }`}
             placeholder="Your Email"
           />
           <input
             type="text"
             name="photoURL"
-            className={`input w-full ${theme === "light" ? "input-bordered" : "input-bordered bg-white text-black"}`}
+            className={`input w-full ${
+              theme === "light"
+                ? "input-bordered"
+                : "input-bordered bg-white text-black"
+            }`}
             placeholder="Your Photo-URL"
           />
           <div className="relative">
@@ -100,7 +153,11 @@ const Register = () => {
               type={showPassword ? "text" : "password"}
               name="password"
               placeholder="Password"
-              className={`input w-full ${theme === "light" ? "input-bordered" : "input-bordered bg-white text-black"}`}
+              className={`input w-full ${
+                theme === "light"
+                  ? "input-bordered"
+                  : "input-bordered bg-white text-black"
+              }`}
             />
             <button
               type="button"
@@ -111,19 +168,31 @@ const Register = () => {
             </button>
           </div>{" "}
           <br />
-          <button className={`btn px-6 btn-outline rounded-full ${theme === "light" ? "" : "bg-white text-black"}`}>
+          <button
+            className={`btn px-6 btn-outline rounded-full ${
+              theme === "light" ? "" : "bg-white text-black"
+            }`}
+          >
             Register
           </button>
         </form>
 
         <div>
-          <span className={`${theme === "light" ? "text-black" : "text-gray-800"}`}>Already have an account?</span>{" "}
+          <span
+            className={`${theme === "light" ? "text-black" : "text-gray-800"}`}
+          >
+            Already have an account?
+          </span>{" "}
           <Link to="/login" className="text-info font-medium underline">
             Login
           </Link>
         </div>
         <div>
-          <p className={`${theme === "light" ? "text-black" : "text-gray-800"}`}>or</p>
+          <p
+            className={`${theme === "light" ? "text-black" : "text-gray-800"}`}
+          >
+            or
+          </p>
         </div>
 
         <button

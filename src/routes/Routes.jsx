@@ -9,6 +9,11 @@ import PrivateRoute from "./PrivateRoute";
 import DashboardLayout from "../Layouts/DashboardLayout";
 import Profile from "../pages/Profile/Profile";
 import ForgotPassword from "../pages/Auth/ForgotPassword";
+import AddLesson from "../pages/Dashboard/AddLesson";
+import MyLessons from "../pages/Dashboard/MyLessons";
+import ManageLessons from "../pages/Dashboard/ManageLessons";
+import ManageUsers from "../pages/Dashboard/ManageUsers";
+import UpdateLessons from "../pages/Dashboard/UpdateLessons";
 
 export const router = createBrowserRouter([
   {
@@ -46,15 +51,23 @@ export const router = createBrowserRouter([
       },
       {
         path: "add-lesson",
-        element: <PrivateRoute>{/* <AddLesson /> */}</PrivateRoute>,
+        element: <PrivateRoute><AddLesson /> </PrivateRoute>,
       },
       {
         path: "my-lessons",
-        element: <PrivateRoute>{/* <MyLessons /> */}</PrivateRoute>,
+        element: <PrivateRoute><MyLessons /></PrivateRoute>,
+      },
+      {
+        path: "update-lessons",
+        element: <PrivateRoute><UpdateLessons /></PrivateRoute>,
+      },
+      {
+        path: "admin/manage-lessons",
+        element: <PrivateRoute><ManageLessons /></PrivateRoute>,
       },
       {
         path: "admin/manage-users",
-        element: <PrivateRoute>{/* <ManageUsers /> */}</PrivateRoute>,
+        element: <PrivateRoute><ManageUsers /></PrivateRoute>,
       },
       {
         path: "profile",
