@@ -73,7 +73,7 @@ const Register = () => {
       });
   };
   return (
-    <div className=" bg-linear-to-r from-blue-600 to-black mt-6  text-center min-h-screen flex items-center justify-center">
+    <div className=" bg-linear-to-r from-warning to-black mt-6  text-center min-h-screen flex items-center justify-center">
       <div className={`p-6 ${theme === "light" ? "bg-white" : "bg-gray-200"} rounded-lg shadow-sm space-y-2 w-4/5 md:w-1/3 lg:w-1/3 mx-auto border border-base-300`}>
         <h1 className="text-2xl font-bold text-info">Register here!</h1>
         <form onSubmit={handleRegister} className={` ${theme === "light" ? "bg-white" : "bg-gray-200"}  space-y-2`}>

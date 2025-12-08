@@ -22,7 +22,7 @@ const Navbar = () => {
         className={({ isActive }) =>
           isActive ? "text-info underline font-bold" : ""
         }
-        to="/lessons"
+        to="/public-lessons"
       >
         <li>Lessons</li>
       </NavLink>
@@ -44,16 +44,16 @@ const Navbar = () => {
           >
             <li>Add Lesson</li>
           </NavLink>
-          <NavLink
-            className={({ isActive }) =>
-              isActive ? "text-info underline font-bold" : ""
-            }
-            to="/pricing"
-          >
-            <li>Pricing/Upgrade</li>
-          </NavLink>
         </>
       )}
+      <NavLink
+        className={({ isActive }) =>
+          isActive ? "text-info underline font-bold" : ""
+        }
+        to="/pricing"
+      >
+        <li>Pricing/Upgrade</li>
+      </NavLink>
     </>
   );
 
@@ -142,7 +142,7 @@ const Navbar = () => {
               </div>
             </>
           ) : (
-            <Link to="/login" className="btn btn-warning">
+            <Link to="/login" className="btn btn-sm btn-warning">
               Login
             </Link>
           )}

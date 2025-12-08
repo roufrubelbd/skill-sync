@@ -8,29 +8,32 @@ import Register from "../pages/Auth/Register";
 import PrivateRoute from "./PrivateRoute";
 import DashboardLayout from "../Layouts/DashboardLayout";
 import Profile from "../pages/Profile/Profile";
-
+import ForgotPassword from "../pages/Auth/ForgotPassword";
 
 export const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <MainLayout />,
     errorElement: <Error />,
     children: [
       {
-        path: '/',
+        path: "/",
         element: <Home />,
       },
       {
-        path: '/lessons',
+        path: "/public-lessons",
         element: <Lessons />,
       },
     ],
   },
-  { path: '/login', element: <Login /> },
-  { path: '/register', element: <Register /> },
-
+  { path: "/login", element: <Login /> },
+  { path: "/register", element: <Register /> },
   {
-    path: '/dashboard',
+    path: "/forgot-password",
+    Component: ForgotPassword,
+  },
+  {
+    path: "/dashboard",
     element: (
       <PrivateRoute>
         <DashboardLayout />
@@ -39,38 +42,22 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: (
-          <PrivateRoute>
-            {/* <Statistics /> */}
-          </PrivateRoute>
-        ),
+        element: <PrivateRoute>{/* <Statistics /> */}</PrivateRoute>,
       },
       {
-        path: 'add-lesson',
-        element: (
-          <PrivateRoute>
-            {/* <AddLesson /> */}
-          </PrivateRoute>
-        ),
+        path: "add-lesson",
+        element: <PrivateRoute>{/* <AddLesson /> */}</PrivateRoute>,
       },
       {
-        path: 'my-lessons',
-        element: (
-          <PrivateRoute>
-            {/* <MyLessons /> */}
-          </PrivateRoute>
-        ),
+        path: "my-lessons",
+        element: <PrivateRoute>{/* <MyLessons /> */}</PrivateRoute>,
       },
       {
-        path: 'admin/manage-users',
-        element: (
-          <PrivateRoute>
-            {/* <ManageUsers /> */}
-          </PrivateRoute>
-        ),
+        path: "admin/manage-users",
+        element: <PrivateRoute>{/* <ManageUsers /> */}</PrivateRoute>,
       },
       {
-        path: 'profile',
+        path: "profile",
         element: (
           <PrivateRoute>
             <Profile />
@@ -78,13 +65,9 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: 'my-orders',
-        element: (
-          <PrivateRoute>
-            {/* <MyOrders /> */}
-          </PrivateRoute>
-        ),
+        path: "my-orders",
+        element: <PrivateRoute>{/* <MyOrders /> */}</PrivateRoute>,
       },
     ],
   },
-])
+]);
