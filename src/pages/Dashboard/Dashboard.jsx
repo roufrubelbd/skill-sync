@@ -1,22 +1,21 @@
-import React from 'react';
-import AdminDashboard from './AdminDashboard';
-import { User } from 'lucide-react';
-import UserDashBoard from './UserDashBoard';
-
-
+import React from "react";
+import AdminDashboard from "./AdminDashboard";
+import UserDashBoard from "./UserDashBoard";
+import useRole from "../../hooks/useRole";
+import LottieLoader from "../../components/LottieLoader";
 const Dashboard = () => {
-    const adminUser = 'admin'
-    const user = 'user'
-    return (
-        <>
-            {adminUser === 'admin' && (
-                <AdminDashboard />
-            )}
-            {user === 'user' && (
-                <UserDashBoard />
-            )}
-        </>
-    );
+  const [role, isRoleLoading] = useRole();
+  if (isRoleLoading) {
+    return <LottieLoader />;
+  }
+
+  if (role === "admin") {
+    return <AdminDashboard></AdminDashboard>;
+  }
+
+  if (role === "user") {
+    return <UserDashBoard></UserDashBoard>;
+  }
 };
 
 export default Dashboard;

@@ -1,14 +1,15 @@
 import { Outlet, useNavigation } from "react-router";
-import Dashboard from "../pages/Dashboard/Dashboard";
-import useAuth from "../hooks/useAuth";
 import DynamicTitle from "../components/DynamicTitle";
 import LottieLoader from "../components/LottieLoader";
+import DashboardNavbar from "../pages/Dashboard/DashboardNavbar";
+// import useRole from "../hooks/useRole";
 
 const DashboardLayout = () => {
   const navigation = useNavigation();
-  const { loading } = useAuth();
+  // const [isRoleLoading] = useRole();
 
-  const isLoading = loading || navigation?.state === "loading";
+  // const isLoading = isRoleLoading || navigation?.state === "loading";
+  const isLoading = navigation?.state === "loading";
   return (
     <>
       <DynamicTitle />
@@ -17,11 +18,11 @@ const DashboardLayout = () => {
       ) : (
         <div className="min-h-screen md:flex w-11/12 mx-auto gap-6 py-10">
           {/* left side | sidebar */}
-          <div>
-            <Dashboard />
+          <div className="w-full md:w-1/5 justify-start bg-base-200">
+            <DashboardNavbar />
           </div>
           {/* right side | dynamic contents */}
-          <div className="min-h-[calc(100vh-285px)]">
+          <div className="w-full md:w-4/5 flex-1 justify-end">
             <Outlet />
           </div>
         </div>

@@ -16,30 +16,30 @@ const Banner = () => {
     {
       id: 1,
       image: "https://i.postimg.cc/zBVKcBMc/4.png",
-      title: "Your Journey to Digital Excellence Starts Here",
+      title: "Journey to Digital Excellence Here",
       subtitle:
-        "Explore structured lessons, real-world projects, and interactive learning experiences.",
+        "Explore structured lessons and interactive learning experiences.",
     },
     {
       id: 2,
       image: "https://i.postimg.cc/mDtC5DqJ/5.png",
-      title: "Master New Skills Anytime, Anywhere",
+      title: "Master New Skills Anytime",
       subtitle:
-        "From coding to creativity—unlock premium content designed to fit your lifestyle.",
+        "From coding to creativity unlock premium content.",
     },
     {
       id: 3,
       image: "https://i.postimg.cc/3RdmcR6z/6.png",
       title: "Learn Smarter, Grow Faster",
       subtitle:
-        "Access high-quality digital lessons built to upgrade your skills and shape your future.",
+        "Access high-quality digital lessons built to upgrade your skills ",
     },
   ];
 
   if (loading) return <LottieLoader />;
 
   return (
-    <div className="w-full md:h-[60vh] container mx-auto relative mt-4 mb-4">
+    <div className="w-full md:h-[40vh] container mx-auto relative mt-4 mb-4">
       <Swiper
         modules={[Navigation, Pagination, Autoplay, EffectFade]}
         navigation
@@ -55,7 +55,7 @@ const Banner = () => {
               <motion.img
                 src={slide.image}
                 alt={slide.title}
-                className="w-full object-cover md:h-[60vh]"
+                className="w-full object-cover md:h-[40vh]"
                 initial={{ scale: 1 }}
                 animate={{ scale: 1.1 }}
                 transition={{
@@ -93,7 +93,7 @@ const Banner = () => {
                   transition={{ duration: 1, delay: 0.4 }}
                 >
                   <Link to="/public-lessons">
-                    <button className="mt-6 btn btn-warning btn-xs md:btn-sm px-4 py-1 rounded-full shadow-lg hover:shadow-emerald-400/40 transition-all duration-300">
+                    <button className="mt-2 btn btn-warning btn-xs md:btn-sm px-4 rounded-full shadow hover:shadow-emerald-400/40 transition-all duration-300">
                       explore →
                     </button>
                   </Link>

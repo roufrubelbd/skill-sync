@@ -117,19 +117,19 @@ const Navbar = () => {
                     />
                   </div>
                 </div>
-                <ul
+                <div
                   tabIndex="-1"
-                  className="menu menu-sm dropdown-content bg-base-100 space-y-2 rounded-box z-50 mt-3 w-52 p-2 shadow"
+                  className="menu menu-sm dropdown-content bg-base-100 space-y-2 rounded-box z-50 mt-3 w-40 p-2 shadow"
                 >
-                  <li className="text-accent font-bold">
+                  <h4 className="text-accent font-bold p-2">
                     {user?.displayName || "User"}
-                  </li>
-                  <li className="btn btn-sm rounded-full hover:btn-warning">
+                  </h4>
+                  <button className="btn btn-sm rounded-full hover:btn-warning block">
                     <Link to="/dashboard/profile">Profile</Link>
-                  </li>
-                  <li className="btn btn-sm rounded-full hover:btn-warning">
+                  </button>
+                  <button className="btn btn-sm rounded-full hover:btn-warning block">
                     <Link to="/dashboard">Dashboard</Link>
-                  </li>
+                  </button>
                   <li>
                     <button
                       className="btn btn-warning hover:btn-error btn-sm rounded-full"
@@ -138,7 +138,7 @@ const Navbar = () => {
                       Logout
                     </button>
                   </li>
-                </ul>
+                </div>
               </div>
             </>
           ) : (
