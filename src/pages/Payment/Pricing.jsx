@@ -2,9 +2,9 @@ import axios from "axios";
 import useAuth from "../../hooks/useAuth";
 
 const Pricing = () => {
-  const { user, dbUser } = useAuth();
+  const { user } = useAuth();
 
-  if (dbUser?.isPremium) {
+  if (user?.isPremium) {
     return (
       <div className="text-center mt-20">
         <h1 className="text-3xl font-bold">You are already Premium ⭐</h1>

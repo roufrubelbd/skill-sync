@@ -2,11 +2,11 @@ import { useEffect } from "react";
 import useAuth from "../../hooks/useAuth";
 
 const PaymentSuccess = () => {
-  const { refetchDbUser, user } = useAuth();
+  const { user } = useAuth();
 
   useEffect(() => {
-    refetchDbUser(user?.email); //  Fetch updated isPremium from DB
-  }, []);
+    console.log("Payment successful for user:", user?.email);
+  }, [user]);
 
   return (
     <div className="text-center mt-20">

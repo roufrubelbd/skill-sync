@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import "../components/Navbar.css";
 
 const Navbar = () => {
-  const { user, logOutUser, dbUser } = useAuth();
+  const { user, logOutUser } = useAuth();
 
   const menus = (
     <>
@@ -27,7 +27,7 @@ const Navbar = () => {
         <li>Lessons</li>
       </NavLink>
 
-      {dbUser?.isPremium ? (
+      {user?.isPremium ? (
         <span className="badge badge-warning">Premium ⭐</span>
       ) : (
         <NavLink to="/pricing">Upgrade</NavLink>
