@@ -6,7 +6,7 @@ const PaymentSuccess = () => {
 
   useEffect(() => {
     refetchDbUser(user?.email); //  Fetch updated isPremium from DB
-  }, [user?.email, refetchDbUser]);
+  }, []);
 
   return (
     <div className="text-center mt-20">
