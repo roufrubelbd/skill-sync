@@ -25,15 +25,29 @@ const Pricing = () => {
 
   return (
     <div className="max-w-5xl mx-auto p-10">
-      <h1 className="text-4xl font-bold text-center mb-10">
-        Upgrade to Premium
-      </h1>
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4 ">
+        <div>
+          <h1 className="text-xl font-bold text-center text-info uppercase">
+            Upgrade to Premium
+          </h1>
+        </div>
 
-      {/* ✅ Comparison Table */}
+        {/*  Stripe Button */}
+        <div className="text-center">
+          <button
+            onClick={handleUpgrade}
+            className="btn btn-warning hover:btn-info rounded-full"
+          >
+            Upgrade to Premium ৳1500 (Lifetime)
+          </button>
+        </div>
+      </div>
+
+      {/*  Comparison Table */}
       <div className="overflow-x-auto">
         <table className="table w-full border">
           <thead>
-            <tr>
+            <tr className="md:font-bold md:text-lg">
               <th>Features</th>
               <th>Free</th>
               <th>Premium</th>
@@ -82,13 +96,6 @@ const Pricing = () => {
             </tr>
           </tbody>
         </table>
-      </div>
-
-      {/* ✅ Stripe Button */}
-      <div className="text-center mt-10">
-        <button onClick={handleUpgrade} className="btn btn-warning text-lg">
-          Upgrade to Premium – ৳1500 (Lifetime)
-        </button>
       </div>
     </div>
   );
