@@ -11,7 +11,7 @@ const AdminNav = () => {
       </NavLink>
       <NavLink to="/dashboard/admin/manage-lessons">Manage Lessons</NavLink>
       <NavLink to="/dashboard/admin/manage-users">Manage Users</NavLink>
-      <NavLink to="/dashboard/admin/add-lesson">Add Lessons</NavLink>
+      <NavLink to="/dashboard/admin/add-lesson">Add Lesson</NavLink>
     </div>
   );
 };

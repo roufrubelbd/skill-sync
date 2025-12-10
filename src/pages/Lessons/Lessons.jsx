@@ -39,7 +39,7 @@ export default function PublicLessonsGrid() {
     show: { opacity: 1, y: 0, transition: { duration: 0.45 } },
   };
 
-  // ✅ Loading Skeleton
+  //  Loading Skeleton
   if (isLoading) {
     return (
       <div className="container mx-auto p-6">
@@ -83,7 +83,7 @@ export default function PublicLessonsGrid() {
                 }}
                 className="bg-base-200 rounded-lg overflow-hidden"
               >
-                {/* ✅ Image */}
+                {/*  Image */}
                 <div className="relative overflow-hidden">
                   <img
                     src={lesson.image || "https://via.placeholder.com/400x300"}
@@ -91,12 +91,12 @@ export default function PublicLessonsGrid() {
                     className="w-full h-36 object-cover transition-transform duration-500 hover:scale-105"
                   />
 
-                  {/* ✅ Access Badge */}
+                  {/*  Access Badge */}
                   <span className="absolute top-2 left-2 text-xs px-2 py-1 rounded bg-white/80 font-semibold">
                     {lesson.accessLevel?.toUpperCase()}
                   </span>
 
-                  {/* ✅ Like Button */}
+                  {/*  Like Button */}
                   <button
                     onClick={() => toggleLike(id)}
                     className="absolute top-2 right-2 bg-white/80 p-1 rounded-full text-red-500"
@@ -105,7 +105,7 @@ export default function PublicLessonsGrid() {
                   </button>
                 </div>
 
-                {/* ✅ Content */}
+                {/*  Content */}
                 <div className="p-3">
                   <h4 className="text-sm font-semibold line-clamp-2">
                     {lesson.title}
@@ -125,10 +125,10 @@ export default function PublicLessonsGrid() {
                   </div>
                 </div>
 
-                {/* ✅ Footer */}
+                {/*  Footer */}
                 <div className="mx-4 md:mx-10 pb-1">
                   <Link
-                    to={`/lesson/${id}`}
+                    to={`/public-lessons/${id}`}
                     className="btn btn-xs hover:btn-warning w-full"
                   >
                     View Details

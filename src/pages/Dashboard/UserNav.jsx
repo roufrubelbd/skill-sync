@@ -8,9 +8,9 @@ const UserNav = () => {
         {" "}
         <img className="w-6 h-6 rounded-full" src={logo} alt="logo" /> Home
       </NavLink>
-      <NavLink to="/dashboard/add-lesson">Add Lessons</NavLink>
+      <NavLink to="/dashboard/add-lesson">Add Lesson</NavLink>
       <NavLink to="/dashboard/my-lessons">My Lessons</NavLink>
-      <NavLink to="/dashboard/update-lessons">Update Lessons</NavLink>
+      <NavLink to="/dashboard/update-lesson">Update Lesson</NavLink>
     </div>
   );
 };

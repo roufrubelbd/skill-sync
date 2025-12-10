@@ -28,22 +28,14 @@ const Navbar = () => {
       </NavLink>
       {user && (
         <>
-          <NavLink
+          {/* <NavLink
             className={({ isActive }) =>
               isActive ? "text-info underline font-bold" : ""
             }
             to="/dashboard/my-lessons"
           >
             <li>My Lessons</li>
-          </NavLink>
-          <NavLink
-            className={({ isActive }) =>
-              isActive ? "text-info underline font-bold" : ""
-            }
-            to="/dashboard/add-lesson"
-          >
-            <li>Add Lesson</li>
-          </NavLink>
+          </NavLink> */}
         </>
       )}
       <NavLink

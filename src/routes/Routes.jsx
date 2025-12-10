@@ -15,6 +15,7 @@ import ManageLessons from "../pages/Dashboard/ManageLessons";
 import ManageUsers from "../pages/Dashboard/ManageUsers";
 import UpdateLessons from "../pages/Dashboard/UpdateLessons";
 import Dashboard from "../pages/Dashboard/Dashboard";
+import LessonDetails from "../pages/Lessons/LessonDetails";
 
 export const router = createBrowserRouter([
   {
@@ -27,19 +28,27 @@ export const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/public-lessons",
+        path: "public-lessons",
         element: <Lessons />,
+      },
+      {
+        path: "public-lessons/:id",
+        element: (
+          <PrivateRoute>
+            <LessonDetails />
+          </PrivateRoute>
+        ),
       },
     ],
   },
-  { path: "/login", element: <Login /> },
-  { path: "/register", element: <Register /> },
+  { path: "login", element: <Login /> },
+  { path: "register", element: <Register /> },
   {
-    path: "/forgot-password",
+    path: "forgot-password",
     Component: ForgotPassword,
   },
   {
-    path: "/dashboard",
+    path: "dashboard",
     element: (
       <PrivateRoute>
         <DashboardLayout />
@@ -71,13 +80,14 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "update-lessons",
+        path: "update/:id",
         element: (
           <PrivateRoute>
             <UpdateLessons />
           </PrivateRoute>
         ),
       },
+
       {
         path: "admin/manage-lessons",
         element: (
