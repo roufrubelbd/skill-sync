@@ -27,28 +27,11 @@ const Navbar = () => {
         <li>Lessons</li>
       </NavLink>
 
-      {/* {user && !user?.isPremium && (
-        <NavLink to="/pricing" className="btn btn-sm btn-warning">
-          Upgrade ⭐
-        </NavLink>
-      )} */}
-
-      {/* {user?.isPremium && (
-        <span className="badge badge-success">Premium ⭐</span>
-      )} */}
-
-{user && !dbUser?.isPremium && (
-        <NavLink to="/pricing" className="btn btn-xs btn-warning">
-          Upgrade
-        </NavLink>
+      {dbUser?.isPremium ? (
+        <span className="badge badge-warning">Premium ⭐</span>
+      ) : (
+        <NavLink to="/pricing">Upgrade</NavLink>
       )}
-
-      {user && dbUser?.isPremium && (
-        <span className="badge badge-success">
-          Premium ⭐
-        </span>
-      )}
-
     </>
   );
 
