@@ -16,6 +16,9 @@ import ManageUsers from "../pages/Dashboard/ManageUsers";
 import UpdateLessons from "../pages/Dashboard/UpdateLessons";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import LessonDetails from "../pages/Lessons/LessonDetails";
+import Pricing from "../pages/Payment/Pricing";
+import PaymentSuccess from "../pages/Payment/PaymentSuccess";
+import PaymentCancel from "../pages/Payment/PaymentCancel";
 
 export const router = createBrowserRouter([
   {
@@ -36,6 +39,30 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <LessonDetails />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "pricing",
+        element: (
+          <PrivateRoute>
+            <Pricing />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "payment/success",
+        element: (
+          <PrivateRoute>
+            <PaymentSuccess />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "payment/cancel",
+        element: (
+          <PrivateRoute>
+            <PaymentCancel />
           </PrivateRoute>
         ),
       },
