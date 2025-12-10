@@ -2,11 +2,11 @@ import { useEffect } from "react";
 import useAuth from "../../hooks/useAuth";
 
 const PaymentSuccess = () => {
-  const { refetchDbUser } = useAuth();
+  const { refetchDbUser, user } = useAuth();
 
   useEffect(() => {
-    refetchDbUser(); // ✅ Fetch updated isPremium from DB
-  }, []);
+    refetchDbUser(user?.email); //  Fetch updated isPremium from DB
+  }, [user?.email, refetchDbUser]);
 
   return (
     <div className="text-center mt-20">
@@ -18,4 +18,3 @@ const PaymentSuccess = () => {
 };
 
 export default PaymentSuccess;
-
