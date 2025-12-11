@@ -4,9 +4,15 @@ import toast from "react-hot-toast";
 import useAuth from "../../hooks/useAuth";
 import LottieLoader from "../../components/LottieLoader";
 import { useQueryClient } from "@tanstack/react-query";
+import Swal from "sweetalert2";
+import useRole from "../../hooks/useRole";
+import { useNavigate } from "react-router";
 
 const AddLesson = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
+  const { isPremium, isRoleLoading } = useRole();
+
   const [loading, setLoading] = useState(false);
   const queryClient = useQueryClient();
 
@@ -20,20 +26,32 @@ const AddLesson = () => {
 
     try {
       const form = e.target;
+      const accessLevel = form.accessLevel.value;
+
+      //  Block free users from creating premium lessons
+      if (!isPremium && accessLevel === "premium") {
+        setLoading(false);
+        return Swal.fire({
+          title: "Upgrade Required",
+          text: "You must be a Premium user to create premium lessons.",
+          icon: "warning",
+          confirmButtonText: "Upgrade Now",
+        }).then(() => navigate("/pricing"));
+      }
+
       const imageFile = form.image.files[0];
 
-      //  Upload Image to Cloudinary
-      const imageData = new FormData();
-      imageData.append("file", imageFile);
-      imageData.append(
+      // Upload Image
+      const imgData = new FormData();
+      imgData.append("file", imageFile);
+      imgData.append(
         "upload_preset",
         import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET
       );
 
-      const imageRes = await axios.post(cloudinaryUrl, imageData);
-      const imageUrl = imageRes.data.secure_url;
+      const imgRes = await axios.post(cloudinaryUrl, imgData);
+      const imageUrl = imgRes.data.secure_url;
 
-      // Create Lesson Object (Your Schema)
       const newLesson = {
         title: form.title.value,
         description: form.description.value,
@@ -46,40 +64,38 @@ const AddLesson = () => {
         likes: [],
         favorites: [],
         comments: [],
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
+        createdAt: new Date().toLocaleDateString(),
+        updatedAt: new Date().toLocaleDateString(),
       };
 
-      //  Save to MongoDB
+      // Save to DB
       const res = await axios.post(
         `${import.meta.env.VITE_API_URL}/add-lesson`,
         newLesson
       );
 
       if (res.data?.acknowledged) {
-        toast.success("Lesson added successfully!");
-
-        //  REAL-TIME UI UPDATE
-        queryClient.invalidateQueries(["public-lessons"]);
-
+        // toast.success("Lesson added successfully!");
+        Swal.fire("Success", "Your lesson has been added.", "success");
+        queryClient.invalidateQueries(["all-lessons"]);
         form.reset();
       } else {
-        toast.error("Lesson insert failed!");
+        toast.error("Error adding lesson.");
       }
     } catch (error) {
-      toast.error("Image upload or lesson save failed!");
+      toast.error("Error uploading image or saving lesson.");
       console.error(error);
     } finally {
       setLoading(false);
     }
   };
 
-  if (loading) return <LottieLoader />;
+  if (loading || isRoleLoading) return <LottieLoader />;
 
   return (
     <div className="container mx-auto pt-4">
-      <div className="p-4 shadow rounded w-full md:w-3/5 lg:w-3/6 mx-auto">
-        <h2 className="mb-3 text-2xl font-bold">Add Lesson</h2>
+      <div className="p-2 md:p-4 shadow rounded border border-gray-200 w-full md:w-4/5 lg:w-4/6 mx-auto">
+        <h2 className="mb-3 text-2xl font-bold text-accent">Add Lesson</h2>
 
         <form onSubmit={handleAdd} className="space-y-2">
           <input
@@ -96,7 +112,6 @@ const AddLesson = () => {
             className="px-6 py-2 rounded-lg w-full bg-white"
           />
 
-          {/*  CATEGORY DROPDOWN */}
           <select
             name="category"
             required
@@ -109,7 +124,6 @@ const AddLesson = () => {
             <option value="Career">Career</option>
           </select>
 
-          {/*  TONE DROPDOWN */}
           <select
             name="tone"
             required
@@ -121,7 +135,6 @@ const AddLesson = () => {
             <option value="Motivational">Motivational</option>
           </select>
 
-          {/*  VISIBILITY DROPDOWN */}
           <select
             name="visibility"
             required
@@ -132,7 +145,7 @@ const AddLesson = () => {
             <option value="private">private</option>
           </select>
 
-          {/*  ACCESS LEVEL DROPDOWN */}
+          {/* ⭐ Access Level — Free users CAN SEE premium option, but blocked on submit */}
           <select
             name="accessLevel"
             required
@@ -143,14 +156,12 @@ const AddLesson = () => {
             <option value="premium">premium</option>
           </select>
 
-          {/*  LOGGED USER EMAIL (READ ONLY) */}
           <input
             value={user?.email || ""}
             readOnly
             className="px-6 py-2 rounded-lg w-full bg-gray-200 text-gray-700"
           />
 
-          {/*  IMAGE FILE UPLOAD */}
           <input
             type="file"
             name="image"

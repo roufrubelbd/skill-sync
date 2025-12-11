@@ -4,9 +4,14 @@ import { Link, NavLink } from "react-router";
 import useAuth from "../hooks/useAuth";
 import toast from "react-hot-toast";
 import "../components/Navbar.css";
+import useRole from "../hooks/useRole";
+import LottieLoader from "./LottieLoader";
 
 const Navbar = () => {
   const { user, logOutUser } = useAuth();
+  const { isPremium, isRoleLoading } = useRole();
+
+  if (isRoleLoading) return <LottieLoader />;
 
   const menus = (
     <>
@@ -24,13 +29,40 @@ const Navbar = () => {
         }
         to="/public-lessons"
       >
-        <li>Lessons</li>
+        <li>Public Lessons</li>
       </NavLink>
 
-      {user?.isPremium ? (
+      {user && isPremium ? (
         <span className="badge badge-warning">Premium ⭐</span>
       ) : (
-        <NavLink to="/pricing">Upgrade</NavLink>
+        <NavLink
+          className={({ isActive }) =>
+            isActive ? "text-info underline font-bold" : ""
+          }
+          to="/pricing"
+        >
+          Upgrade
+        </NavLink>
+      )}
+      {user && (
+        <>
+          <NavLink
+            className={({ isActive }) =>
+              isActive ? "text-info underline font-bold md:pl-4" : "md:pl-4"
+            }
+            to="/dashboard/add-lesson"
+          >
+            <li>Add Lesson</li>
+          </NavLink>
+          <NavLink
+            className={({ isActive }) =>
+              isActive ? "text-info underline font-bold" : ""
+            }
+            to="/dashboard/my-lessons"
+          >
+            <li>My Lessons</li>
+          </NavLink>
+        </>
       )}
     </>
   );
@@ -69,7 +101,7 @@ const Navbar = () => {
             </div>
             <ul
               tabIndex="-1"
-              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-3 w-32 p-2 shadow"
             >
               {menus}
             </ul>

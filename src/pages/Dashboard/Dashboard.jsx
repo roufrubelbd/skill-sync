@@ -4,7 +4,7 @@ import UserDashBoard from "./UserDashBoard";
 import useRole from "../../hooks/useRole";
 import LottieLoader from "../../components/LottieLoader";
 const Dashboard = () => {
-  const [role, isRoleLoading] = useRole();
+  const { role, isRoleLoading } = useRole();
   if (isRoleLoading) {
     return <LottieLoader />;
   }

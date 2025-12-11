@@ -18,11 +18,11 @@ const DashboardLayout = () => {
       ) : (
         <div className="min-h-screen md:flex px-4 mx-auto xs:gap-4 py-4 bg-gray-500">
           {/* left side | sidebar */}
-          <div className="w-full md:w-1/5 px-4 justify-start bg-base-200 md:rounded-l-lg">
+          <div className="w-full md:w-1/6 px-4 justify-start bg-base-200 md:rounded-l-lg">
             <DashboardNavbar />
           </div>
           {/* right side | dynamic contents */}
-          <div className="w-full md:w-4/5 px-4 flex-1 justify-end bg-base-100 md:rounded-r-lg">
+          <div className="w-full md:w-5/6 px-4 flex-1 justify-end bg-base-100 md:rounded-r-lg">
             <Outlet />
           </div>
         </div>

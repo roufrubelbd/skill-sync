@@ -7,10 +7,12 @@ import toast from "react-hot-toast";
 import { FacebookShareButton, FacebookIcon } from "react-share";
 import useAuth from "../../hooks/useAuth";
 import LottieLoader from "../../components/LottieLoader";
+import useRole from "../../hooks/useRole";
 
 const LessonDetails = () => {
   const { id } = useParams();
   const { user } = useAuth();
+  const { isPremium, isRoleLoading } = useRole();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
@@ -24,16 +26,40 @@ const LessonDetails = () => {
     enabled: !!id,
     queryFn: async () => {
       const res = await axios.get(
-        `${import.meta.env.VITE_API_URL}/public-lessons/${id}`
+        `${import.meta.env.VITE_API_URL}/all-lessons/${id}`
       );
       return res.data;
     },
   });
 
-  const isPremium = lesson.accessLevel === "premium";
-  const hasAccess = user?.isPremium || !isPremium;
+  //  Fetch lessons
+  const { data: allLessons = [], isLoading: isAllLessonsLoading } = useQuery({
+    queryKey: ["all-lessons"],
+    queryFn: async () => {
+      const result = await axios(`${import.meta.env.VITE_API_URL}/all-lessons`);
+      return result.data;
+    },
+  });
 
-  //  Similar Lessons
+  //  Fetch creator
+  const { data: creatorData = [], isLoading: isLoadingCreatorData } = useQuery({
+    queryKey: ["creator-data"],
+    queryFn: async () => {
+      const result = await axios(`${import.meta.env.VITE_API_URL}/users`);
+      return result.data;
+    },
+  });
+
+  // creator data
+  const creator = creatorData.find(
+    (user) => user.email === lesson.createdByEmail
+  );
+
+  const lessonsByCreator = allLessons.filter(
+    (lesson) => lesson.createdByEmail === creator.email
+  );
+  console.log(lessonsByCreator.length);
+
   const { data: similarLessons = [] } = useQuery({
     queryKey: ["similar-lessons", lesson.category, lesson.tone],
     enabled: !!lesson?.category && !!lesson?.tone,
@@ -96,7 +122,7 @@ const LessonDetails = () => {
     enabled: !!id,
     queryFn: async () => {
       const res = await axios.get(
-        `${import.meta.env.VITE_API_URL}/public-lessons/${id}/comments`
+        `${import.meta.env.VITE_API_URL}/all-lessons/${id}/comments`
       );
       return res.data;
     },
@@ -119,7 +145,7 @@ const LessonDetails = () => {
     };
 
     await axios.post(
-      `${import.meta.env.VITE_API_URL}/public-lessons/${id}/comment`,
+      `${import.meta.env.VITE_API_URL}/all-lessons/${id}/comment`,
       payload
     );
 
@@ -128,16 +154,17 @@ const LessonDetails = () => {
     toast.success("Comment posted!");
   };
 
-  if (isLoading) return <LottieLoader />;
+  if (isLoading || isLoadingCreatorData || isAllLessonsLoading || isRoleLoading)
+    return <LottieLoader />;
 
   return (
     <div className="max-w-6xl mx-auto p-6 grid md:grid-cols-3 gap-6">
       {/*  MAIN CONTENT */}
       <div className="md:col-span-2 space-y-6">
         {/*  Premium Lock */}
-        {!hasAccess && (
+        {!user && !isPremium && (
           <div className="bg-yellow-100 border p-4 rounded text-center">
-            🔒 This is a Premium Lesson
+            This is a Premium Lesson
             <button
               onClick={() => navigate("/pricing")}
               className="btn btn-warning ml-3"
@@ -152,14 +179,14 @@ const LessonDetails = () => {
           <img
             src={lesson?.image || "https://via.placeholder.com/600x400"}
             className={`w-full h-[350px] object-cover rounded ${
-              !hasAccess && "blur-md"
+              !user && !isPremium && "blur-md"
             }`}
           />
         </div>
 
         {/*  Lesson Info */}
         <h1 className="text-3xl font-bold">{lesson.title}</h1>
-        <p className={`text-gray-700 ${!hasAccess && "blur-md"}`}>
+        <p className={`text-gray-700 ${!user && !isPremium && "blur-md"}`}>
           {lesson.description}
         </p>
 
@@ -175,9 +202,9 @@ const LessonDetails = () => {
 
         {/*  Stats */}
         <div className="flex gap-4 text-sm">
-          ❤️ {lesson.likes?.length || 0}
-          🔖 {lesson.favorites?.length || 0}
-          👀 {Math.floor(Math.random() * 10000)}
+          <span>Likes: {lesson.likes?.length || 0} </span>
+          <span>Favorites: {lesson.favorites?.length || 0}</span>
+          <span>Total view: {Math.floor(Math.random() * 10000)}</span>
         </div>
 
         {/*  Actions */}
@@ -249,19 +276,41 @@ const LessonDetails = () => {
       </div>
 
       {/*  AUTHOR CARD */}
-      <div className="bg-base-200 p-4 rounded shadow space-y-3">
+      <div className="bg-base-200 p-4 rounded shadow space-y-2 flex flex-col  text-center">
+        <h4 className="text-lg">
+          Author Name:{" "}
+          <span className=" text-accent font-bold uppercase">
+            {creator.name}
+          </span>
+        </h4>
         <img
-          src={user?.photoURL || "https://i.ibb.co/zZ9dp2Q/user.png"}
-          className="w-20 h-20 rounded-full mx-auto"
+          src={creator?.photoURL || "https://i.ibb.co/zZ9dp2Q/user.png"}
+          className="w-40 h-40 rounded-full mx-auto my-4"
         />
-        <h4 className="text-center font-bold">{lesson?.createdByEmail}</h4>
-        <p className="text-center text-sm">Total Lessons: 12</p>
-        <button
-          onClick={() => navigate("/profile")}
-          className="btn btn-sm w-full"
-        >
-          View Author
-        </button>
+        {/* <h4 className="text-center font-bold">{lesson?.createdByEmail}</h4> */}
+        <p className="text-center text-base">
+          Total Lessons Created:{" "}
+          <span className="badge badge-warning badge-lg font-bold">
+            {" "}
+            {lessonsByCreator.length}
+          </span>
+        </p>
+
+        <span className="mt-4">
+          <button
+            onClick={() =>
+              navigate("/profile", {
+                state: {
+                  lessons: lessonsByCreator,
+                  author: creator,
+                },
+              })
+            }
+            className="btn btn-accent btn-sm uppercase"
+          >
+            View Author
+          </button>
+        </span>
       </div>
 
       {/*  SIMILAR LESSONS */}

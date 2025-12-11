@@ -2,7 +2,6 @@ import { createBrowserRouter } from "react-router";
 import MainLayout from "../Layouts/MainLayout";
 import Error from "../pages/Error/Error";
 import Home from "../pages/Home/Home";
-import Lessons from "../pages/Lessons/Lessons";
 import Login from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register";
 import PrivateRoute from "./PrivateRoute";
@@ -11,14 +10,18 @@ import Profile from "../pages/Profile/Profile";
 import ForgotPassword from "../pages/Auth/ForgotPassword";
 import AddLesson from "../pages/Dashboard/AddLesson";
 import MyLessons from "../pages/Dashboard/MyLessons";
-import ManageLessons from "../pages/Dashboard/ManageLessons";
 import ManageUsers from "../pages/Dashboard/ManageUsers";
-import UpdateLessons from "../pages/Dashboard/UpdateLessons";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import LessonDetails from "../pages/Lessons/LessonDetails";
 import Pricing from "../pages/Payment/Pricing";
 import PaymentSuccess from "../pages/Payment/PaymentSuccess";
 import PaymentCancel from "../pages/Payment/PaymentCancel";
+import MyFavorites from "../pages/Dashboard/MyFavorites";
+import AdminManageLessons from "../pages/Dashboard/AdminManageLessons";
+import AdminManageFeaturedLessons from "../pages/Dashboard/AdminManageFeaturedLessons";
+import UpdateLesson from "../pages/Dashboard/UpdateLesson";
+import PublicLessons from "../pages/Lessons/PublicLessons";
+import AuthorProfile from "../pages/Lessons/AuthorProfile";
 
 export const router = createBrowserRouter([
   {
@@ -32,10 +35,10 @@ export const router = createBrowserRouter([
       },
       {
         path: "public-lessons",
-        element: <Lessons />,
+        element: <PublicLessons />,
       },
       {
-        path: "public-lessons/:id",
+        path: "all-lessons/:id",
         element: (
           <PrivateRoute>
             <LessonDetails />
@@ -47,6 +50,14 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <Pricing />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "profile",
+        element: (
+          <PrivateRoute>
+            <AuthorProfile />
           </PrivateRoute>
         ),
       },
@@ -107,19 +118,18 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "update/:id",
+        path: "my-favorites",
         element: (
           <PrivateRoute>
-            <UpdateLessons />
+            <MyFavorites />
           </PrivateRoute>
         ),
       },
-
       {
-        path: "admin/manage-lessons",
+        path: "update-lesson/:id",
         element: (
           <PrivateRoute>
-            <ManageLessons />
+            <UpdateLesson />
           </PrivateRoute>
         ),
       },
@@ -136,6 +146,22 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <AddLesson />{" "}
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "admin/manage-lessons",
+        element: (
+          <PrivateRoute>
+            <AdminManageLessons />{" "}
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "admin/manage-featured-lessons",
+        element: (
+          <PrivateRoute>
+            <AdminManageFeaturedLessons />{" "}
           </PrivateRoute>
         ),
       },

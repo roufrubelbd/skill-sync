@@ -4,11 +4,16 @@ import toast from "react-hot-toast";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import useAuth from "../../hooks/useAuth";
 import LottieLoader from "../../components/LottieLoader";
-import { useParams } from "react-router";
+import { useParams, useNavigate } from "react-router";
+import Swal from "sweetalert2";
+import useRole from "../../hooks/useRole";
 
-const UpdateLessons = () => {
+const UpdateLesson = () => {
   const { id } = useParams();
   const { user } = useAuth();
+  const navigate = useNavigate();
+  const { role, isPremium, isRoleLoading } = useRole();
+
   const [loading, setLoading] = useState(false);
   const queryClient = useQueryClient();
   const [newImage, setNewImage] = useState(null);
@@ -17,7 +22,7 @@ const UpdateLessons = () => {
     import.meta.env.VITE_CLOUDINARY_CLOUD_NAME
   }/image/upload`;
 
-  //  LOAD EXISTING LESSON
+  // Fetch existing lesson
   const { data: lesson = {}, isLoading } = useQuery({
     queryKey: ["update", id],
     queryFn: async () => {
@@ -33,9 +38,23 @@ const UpdateLessons = () => {
     setLoading(true);
 
     try {
+      const form = e.target;
+
+      // 🔥 PREMIUM VALIDATION
+      if (!isPremium && form.accessLevel.value === "premium") {
+        return Swal.fire({
+          title: "Upgrade Required",
+          text: "You must be a Premium user to set lessons as premium.",
+          icon: "warning",
+          confirmButtonText: "Go to Pricing",
+        }).then(() => {
+          navigate("/pricing");
+        });
+      }
+
       let imageUrl = lesson.image;
 
-      //  RE-UPLOAD IMAGE IF USER SELECTS NEW ONE
+      // Upload new image if selected
       if (newImage) {
         const imageData = new FormData();
         imageData.append("file", newImage);
@@ -49,12 +68,12 @@ const UpdateLessons = () => {
       }
 
       const updatedLesson = {
-        title: e.target.title.value,
-        description: e.target.description.value,
-        category: e.target.category.value,
-        tone: e.target.tone.value,
-        visibility: e.target.visibility.value,
-        accessLevel: e.target.accessLevel.value,
+        title: form.title.value,
+        description: form.description.value,
+        category: form.category.value,
+        tone: form.tone.value,
+        visibility: form.visibility.value,
+        accessLevel: form.accessLevel.value,
         image: imageUrl,
         updatedAt: new Date().toISOString(),
       };
@@ -65,12 +84,18 @@ const UpdateLessons = () => {
       );
 
       if (res.data.modifiedCount > 0) {
-        toast.success("Lesson updated successfully!");
-
-        queryClient.invalidateQueries(["public-lessons"]);
+        Swal.fire("Updated!", "Lesson updated successfully.", "success");
+        queryClient.invalidateQueries(["all-lessons"]);
         queryClient.invalidateQueries(["update", id]);
+
+        // ⭐ ROLE-BASED REDIRECT
+        if (role === "admin") {
+          return navigate("/dashboard/admin/manage-lessons");
+        } else {
+          return navigate("/dashboard/update-lessons");
+        }
       } else {
-        toast.error("No changes detected");
+        Swal.fire("No changes made", res.data.message);
       }
     } catch (error) {
       console.error(error);
@@ -80,12 +105,12 @@ const UpdateLessons = () => {
     }
   };
 
-  if (isLoading || loading) return <LottieLoader />;
+  if (isLoading || loading || isRoleLoading) return <LottieLoader />;
 
   return (
-    <div className="container mx-auto pt-4">
-      <div className="p-4 shadow rounded w-full md:w-3/5 lg:w-3/6 mx-auto">
-        <h2 className="mb-3 text-2xl font-bold">Update Lesson</h2>
+    <div className="container mx-auto pt-2">
+      <div className="p-2 shadow rounded w-full md:w-3/5 lg:w-4/6 mx-auto">
+        <h2 className="mb-3 text-2xl font-bold text-accent">Update Lesson</h2>
 
         <form onSubmit={handleUpdate} className="space-y-2">
           <input
@@ -172,4 +197,4 @@ const UpdateLessons = () => {
   );
 };
 
-export default UpdateLessons;
+export default UpdateLesson;

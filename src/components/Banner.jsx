@@ -24,8 +24,7 @@ const Banner = () => {
       id: 2,
       image: "https://i.postimg.cc/mDtC5DqJ/5.png",
       title: "Master New Skills Anytime",
-      subtitle:
-        "From coding to creativity unlock premium content.",
+      subtitle: "From coding to creativity unlock premium content.",
     },
     {
       id: 3,
@@ -92,7 +91,7 @@ const Banner = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 1, delay: 0.4 }}
                 >
-                  <Link to="/public-lessons">
+                  <Link to="/all-lessons">
                     <button className="mt-2 btn btn-warning btn-xs md:btn-sm px-4 rounded-full shadow hover:shadow-emerald-400/40 transition-all duration-300">
                       explore →
                     </button>

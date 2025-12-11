@@ -6,32 +6,19 @@ const useRole = () => {
   const { user, loading } = useAuth();
   const axiosSecure = useAxiosSecure();
 
-  const { data: role = "user", isLoading: isRoleLoading } = useQuery({
+  const { data: userData = {}, isLoading: isRoleLoading } = useQuery({
     enabled: !loading && !!user?.email,
     queryKey: ["user-role", user?.email],
     queryFn: async () => {
       const result = await axiosSecure.get(`/users/${user.email}/role`);
-      return result.data?.role || "user";
+      return result.data;
+      // return result.data?.role || "user";
     },
   });
-  return [role, isRoleLoading];
+  return {role: userData.role || "user",
+    isPremium: userData.isPremium || false,
+    isRoleLoading};
+  // return [role, isRoleLoading];
 };
 
 export default useRole;
-
-// const useRole = () => {
-//   const { user, loading } = useAuth();
-//   const axiosSecure = useAxiosSecure();
-
-//   const { data: role = "user", isLoading: isRoleLoading } = useQuery({
-//     enabled: !loading && !!user?.email,
-//     queryKey: ["user-role", user?.email],
-//     queryFn: async () => {
-//       const res = await axiosSecure.get(`/users/${user.email}/role`);
-//       return res.data?.role || "user";
-//     },
-//   });
-//   return [role, isRoleLoading];
-// };
-
-// export default useRole;

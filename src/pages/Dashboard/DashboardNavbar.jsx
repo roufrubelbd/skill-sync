@@ -5,7 +5,7 @@ import useRole from "../../hooks/useRole";
 import LottieLoader from "../../components/LottieLoader";
 
 const DashboardNavbar = () => {
-  const [role, isRoleLoading] = useRole();
+  const { role, isRoleLoading } = useRole();
 
     if (isRoleLoading) return <LottieLoader />;
 
