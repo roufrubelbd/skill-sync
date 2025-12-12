@@ -1,23 +1,15 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import LottieLoader from "../../components/LottieLoader";
+import useRole from "../../hooks/useRole";
 
 export default function FeaturedLifeLessons() {
   const queryClient = useQueryClient();
 
   // ---------------------------
-  // GET USER ROLE (Check Admin)
+  // GET USER ROLE via custom Hook
   // ---------------------------
-  const [role, setRole] = useState("user");
-
-  useEffect(() => {
-    const currentUser = JSON.parse(localStorage.getItem("user")); // adjust if needed
-    if (currentUser?.email) {
-      axios
-        .get(`${import.meta.env.VITE_API_URL}/users/${currentUser.email}/role`)
-        .then((res) => setRole(res.data.role));
-    }
-  }, []);
+  const { role } = useRole();
 
   // ---------------------------
   // FETCH FEATURED LESSONS
@@ -42,11 +34,11 @@ export default function FeaturedLifeLessons() {
       );
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(["featured-lessons"]); // refresh UI
+      queryClient.invalidateQueries(["featured-lessons"]);
     },
   });
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <LottieLoader />;
 
   return (
     <div className="container mx-auto p-4">
@@ -56,7 +48,10 @@ export default function FeaturedLifeLessons() {
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
         {featured.map((lesson) => (
-          <div key={lesson._id} className="bg-base-200 p-3 rounded-lg shadow">
+          <div
+            key={lesson._id}
+            className="bg-base-200 p-3 rounded-lg shadow border border-gray-200"
+          >
             <img
               src={lesson.image}
               className="w-full h-32 object-cover rounded"
@@ -71,7 +66,7 @@ export default function FeaturedLifeLessons() {
             {role === "admin" && (
               <button
                 onClick={() => removeMutation.mutate(lesson._id)}
-                className="btn btn-xs btn-error mt-3 w-full"
+                className="btn btn-xs btn-warning mt-3 w-full"
               >
                 Remove from Featured
               </button>
@@ -82,8 +77,3 @@ export default function FeaturedLifeLessons() {
     </div>
   );
 }
-
-
-
-
-

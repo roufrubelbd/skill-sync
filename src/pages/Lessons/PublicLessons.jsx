@@ -186,7 +186,7 @@ export default function PublicLessons() {
                 {/*  Footer */}
                 <div className="mx-4 md:mx-10 pb-2">
                   <Link
-                    to={`/all-lessons/${lesson._id}`}
+                    to={`/public-lessons/${lesson._id}`}
                     className="btn btn-xs hover:btn-warning border border-gray-300 rounded-lg w-full"
                   >
                     View Details

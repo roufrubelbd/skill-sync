@@ -8,6 +8,7 @@ import { FacebookShareButton, FacebookIcon } from "react-share";
 import useAuth from "../../hooks/useAuth";
 import LottieLoader from "../../components/LottieLoader";
 import useRole from "../../hooks/useRole";
+import Swal from "sweetalert2";
 
 const LessonDetails = () => {
   const { id } = useParams();
@@ -15,24 +16,25 @@ const LessonDetails = () => {
   const { isPremium, isRoleLoading } = useRole();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const { loading } = useAuth();
 
   const [reportReason, setReportReason] = useState("");
   const [showReport, setShowReport] = useState(false);
   const [commentText, setCommentText] = useState("");
 
-  //  Fetch Lesson
+  //  Fetch single current Lesson
   const { data: lesson = {}, isLoading } = useQuery({
-    queryKey: ["details", id],
+    queryKey: ["public-lesson", id],
     enabled: !!id,
     queryFn: async () => {
       const res = await axios.get(
-        `${import.meta.env.VITE_API_URL}/all-lessons/${id}`
+        `${import.meta.env.VITE_API_URL}/public-lessons/${id}`
       );
       return res.data;
     },
   });
 
-  //  Fetch lessons
+  //  Fetch all lessons
   const { data: allLessons = [], isLoading: isAllLessonsLoading } = useQuery({
     queryKey: ["all-lessons"],
     queryFn: async () => {
@@ -52,13 +54,13 @@ const LessonDetails = () => {
 
   // creator data
   const creator = creatorData.find(
-    (user) => user.email === lesson.createdByEmail
+    (user) => user?.email === lesson?.createdByEmail
   );
 
   const lessonsByCreator = allLessons.filter(
-    (lesson) => lesson.createdByEmail === creator.email
+    (lesson) => lesson?.createdByEmail === creator?.email
   );
-  console.log(lessonsByCreator.length);
+  // console.log(lessonsByCreator.length);
 
   const { data: similarLessons = [] } = useQuery({
     queryKey: ["similar-lessons", lesson.category, lesson.tone],
@@ -97,23 +99,50 @@ const LessonDetails = () => {
         email: user.email,
       }
     );
-
     queryClient.invalidateQueries(["details", id]);
   };
 
-  //  Report Lesson
   const handleReport = async () => {
+    //  Confirmation popup
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to report this lesson?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, Report",
+      cancelButtonText: "Cancel",
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+    });
+    if (!result.isConfirmed) return;
     const payload = {
       lessonId: id,
       reporterEmail: user?.email,
       reason: reportReason,
       timestamp: new Date().toISOString(),
     };
-
-    await axios.post(`${import.meta.env.VITE_API_URL}/lesson-reports`, payload);
-
-    toast.success("Report submitted");
-    setShowReport(false);
+    try {
+      await axios.post(
+        `${import.meta.env.VITE_API_URL}/lesson-reports`,
+        payload
+      );
+      Swal.fire({
+        title: "Reported!",
+        text: "Your report has been submitted.",
+        icon: "success",
+        timer: 1800,
+        showConfirmButton: false,
+      });
+      setShowReport(false);
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        title: "Error",
+        text: "Something went wrong. Try again.",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+    }
   };
 
   // fetch comments
@@ -136,25 +165,28 @@ const LessonDetails = () => {
     }
 
     if (!commentText.trim()) return toast.error("Comment cannot be empty");
-
     const payload = {
       name: user.displayName || "Anonymous",
       email: user.email,
       photo: user.photoURL,
       text: commentText,
     };
-
     await axios.post(
       `${import.meta.env.VITE_API_URL}/all-lessons/${id}/comment`,
       payload
     );
-
     setCommentText("");
     refetchComments();
     toast.success("Comment posted!");
   };
 
-  if (isLoading || isLoadingCreatorData || isAllLessonsLoading || isRoleLoading)
+  if (
+    loading ||
+    isLoading ||
+    isLoadingCreatorData ||
+    isAllLessonsLoading ||
+    isRoleLoading
+  )
     return <LottieLoader />;
 
   return (

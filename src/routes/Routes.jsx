@@ -38,7 +38,7 @@ export const router = createBrowserRouter([
         element: <PublicLessons />,
       },
       {
-        path: "all-lessons/:id",
+        path: "public-lessons/:id",
         element: (
           <PrivateRoute>
             <LessonDetails />
