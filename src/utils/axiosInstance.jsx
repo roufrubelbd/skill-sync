@@ -1,11 +1,11 @@
-import React from 'react';
+// import React from 'react';
 
-const axiosInstance = () => {
-    return (
-        <div>
-            axiosInstance page
-        </div>
-    );
-};
+// const axiosInstance = () => {
+//     return (
+//         <div>
+//             axiosInstance page
+//         </div>
+//     );
+// };
 
-export default axiosInstance;
+// export default axiosInstance;

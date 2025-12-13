@@ -2,6 +2,10 @@ import React from "react";
 import Logo from "./Logo";
 import { Link } from "react-router";
 import { MdHome } from "react-icons/md";
+import { FaXTwitter } from "react-icons/fa6";
+import { FaGithub } from "react-icons/fa6";
+import { FaSquareFacebook } from "react-icons/fa6";
+import { FaInstagram } from "react-icons/fa";
 
 const Footer = () => {
   return (
@@ -35,10 +39,23 @@ const Footer = () => {
 
       <nav>
         <h6 className="footer-title">Social</h6>
-        <a className="link link-hover">Twitter</a>
-        <a className="link link-hover">Instagram</a>
-        <a className="link link-hover">Facebook</a>
-        <a className="link link-hover">GitHub</a>
+        <a className="link link-hover flex items-center justify-start gap-1">
+          <FaXTwitter />
+          Twitter
+        </a>
+        <a className="link link-hover flex items-center justify-start gap-1">
+          {" "}
+          <FaInstagram />
+          Instagram
+        </a>
+        <a className="link link-hover flex items-center justify-start gap-1">
+          {" "}
+          <FaSquareFacebook />
+          Facebook
+        </a>
+        <a className="link link-hover flex items-center justify-start gap-1">
+          <FaGithub /> GitHub
+        </a>
       </nav>
       <nav>
         <h6 className="footer-title">Explore</h6>

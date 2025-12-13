@@ -5,7 +5,7 @@ const UserNav = () => {
   return (
     <div className="flex flex-col gap-4 p-4">
       <h2 className="uppercase font-extrabold text-accent">User Dashboard</h2>
-      <NavLink className="flex justify-start items-center gap-1" to="/">
+      <NavLink className="flex justify-start items-center gap-1 text-sm" to="/">
         {" "}
         <img className="w-6 h-6 rounded-full" src={logo} alt="logo" />
         Go Home

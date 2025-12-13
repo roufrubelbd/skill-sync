@@ -24,7 +24,7 @@ const AdminNav = () => {
         Manage Lessons
       </NavLink>
       <NavLink
-        className={({ isActive }) => (isActive ? "btn btn-accent" : "")}
+        className={({ isActive }) => (isActive ? "btn btn-accent text-xs" : "")}
         to="/dashboard/admin/manage-featured-lessons"
       >
         Manage Featured Lessons
