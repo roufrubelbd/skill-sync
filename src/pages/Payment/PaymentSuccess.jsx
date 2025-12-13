@@ -2,7 +2,7 @@ import { Link } from "react-router";
 
 const PaymentSuccess = () => {
   return (
-    <div className="text-center mt-20 min-h-screen flex flex-col items-center bg-amber-100">
+    <div className="text-center mt-20 min-h-screen flex flex-col items-center ">
       <h1 className="text-2xl font-bold text-green-500">
         ✅ Payment Successful! Welcome to Premium
       </h1>
