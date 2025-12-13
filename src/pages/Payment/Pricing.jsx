@@ -4,6 +4,7 @@ import useAuth from "../../hooks/useAuth";
 const Pricing = () => {
   const { user } = useAuth();
 
+
   if (user?.isPremium) {
     return (
       <div className="text-center mt-20">
