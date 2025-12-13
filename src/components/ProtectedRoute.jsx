@@ -1,11 +1,11 @@
-import React from 'react';
+// import React from 'react';
 
-const ProtectedRoute = () => {
-    return (
-        <div>
-            ProtectedRoute page
-        </div>
-    );
-};
+// const ProtectedRoute = () => {
+//     return (
+//         <div>
+//             ProtectedRoute page
+//         </div>
+//     );
+// };
 
-export default ProtectedRoute;
+// export default ProtectedRoute;

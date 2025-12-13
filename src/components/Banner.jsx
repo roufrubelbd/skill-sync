@@ -91,7 +91,7 @@ const Banner = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 1, delay: 0.4 }}
                 >
-                  <Link to="/all-lessons">
+                  <Link to="/public-lessons">
                     <button className="mt-2 btn btn-warning btn-xs md:btn-sm px-4 rounded-full shadow hover:shadow-emerald-400/40 transition-all duration-300">
                       explore →
                     </button>

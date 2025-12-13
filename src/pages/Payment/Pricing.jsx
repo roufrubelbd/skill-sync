@@ -26,7 +26,7 @@ const Pricing = () => {
 
   return (
     <div className="max-w-5xl mx-auto p-10">
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4 ">
+      <div className=" ">
         <div>
           <h1 className="text-xl font-bold text-center text-info uppercase">
             Upgrade to Premium
@@ -34,10 +34,10 @@ const Pricing = () => {
         </div>
 
         {/*  Stripe Button */}
-        <div className="text-center">
+        <div className="my-4 ">
           <button
             onClick={handleUpgrade}
-            className="btn btn-warning hover:btn-info rounded-full"
+            className="btn btn-sm px-4 btn-warning hover:btn-info hover:text-white rounded-full shadow"
           >
             Upgrade to Premium ৳1500 (Lifetime)
           </button>

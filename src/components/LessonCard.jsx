@@ -1,11 +1,11 @@
-import React from 'react';
+// import React from 'react';
 
-const LessonCard = () => {
-    return (
-        <div>
-            LessonCard page
-        </div>
-    );
-};
+// const LessonCard = () => {
+//     return (
+//         <div>
+//             LessonCard page
+//         </div>
+//     );
+// };
 
-export default LessonCard;
+// export default LessonCard;

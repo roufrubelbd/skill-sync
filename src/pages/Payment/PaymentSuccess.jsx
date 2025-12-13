@@ -6,7 +6,7 @@ const PaymentSuccess = () => {
       <h1 className="text-2xl font-bold text-green-500">
         ✅ Payment Successful! Welcome to Premium
       </h1>
-      <Link to="/all-lessons" className="mt-5">
+      <Link to="/public-lessons" className="mt-5">
         <button className="btn btn-warning">Go to Lessons</button>
       </Link>
     </div>

@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import "../components/Navbar.css";
 import useRole from "../hooks/useRole";
 import LottieLoader from "./LottieLoader";
+import { MdWorkspacePremium } from "react-icons/md";
 
 const Navbar = () => {
   const { user, logOutUser } = useAuth();
@@ -31,19 +32,6 @@ const Navbar = () => {
       >
         <li>Public Lessons</li>
       </NavLink>
-
-      {user && isPremium ? (
-        <span className="badge badge-warning">Premium ⭐</span>
-      ) : (
-        <NavLink
-          className={({ isActive }) =>
-            isActive ? "text-info underline font-bold" : ""
-          }
-          to="/pricing"
-        >
-          Upgrade
-        </NavLink>
-      )}
       {user && (
         <>
           <NavLink
@@ -63,6 +51,22 @@ const Navbar = () => {
             <li>My Lessons</li>
           </NavLink>
         </>
+      )}
+      {user && isPremium ? (
+        <span className="badge badge-warning">
+          Premium <MdWorkspacePremium />
+        </span>
+      ) : (
+        <NavLink
+          className={({ isActive }) =>
+            isActive
+              ? " underline font-bold badge badge-warning"
+              : "badge badge-warning badge-lg"
+          }
+          to="/pricing"
+        >
+          Upgrade
+        </NavLink>
       )}
     </>
   );
