@@ -13,6 +13,7 @@ import Swal from "sweetalert2";
 const LessonDetails = () => {
   const { id } = useParams();
   const { user } = useAuth();
+  // console.log(user)
   const { isPremium, isRoleLoading } = useRole();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -117,6 +118,7 @@ const LessonDetails = () => {
     if (!result.isConfirmed) return;
     const payload = {
       lessonId: id,
+      reporterName: user?.displayName,
       reporterEmail: user?.email,
       reason: reportReason,
       timestamp: new Date().toISOString(),

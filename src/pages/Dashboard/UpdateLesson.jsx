@@ -24,10 +24,12 @@ const UpdateLesson = () => {
 
   // Fetch existing lesson
   const { data: lesson = {}, isLoading } = useQuery({
-    queryKey: ["update", id],
+    queryKey: ["update-lesson", id],
+    // queryKey: ["update", id],
     queryFn: async () => {
       const res = await axios.get(
-        `${import.meta.env.VITE_API_URL}/update/${id}`
+        `${import.meta.env.VITE_API_URL}/update-lesson/${id}`
+        // `${import.meta.env.VITE_API_URL}/update/${id}`
       );
       return res.data;
     },
@@ -79,20 +81,21 @@ const UpdateLesson = () => {
       };
 
       const res = await axios.patch(
-        `${import.meta.env.VITE_API_URL}/update/${id}`,
+        `${import.meta.env.VITE_API_URL}/update-lesson/${id}`,
+        // `${import.meta.env.VITE_API_URL}/update/${id}`,
         updatedLesson
       );
 
       if (res.data.modifiedCount > 0) {
         Swal.fire("Updated!", "Lesson updated successfully.", "success");
         queryClient.invalidateQueries(["all-lessons"]);
-        queryClient.invalidateQueries(["update", id]);
+        queryClient.invalidateQueries(["update-lesson", id]);
 
         // ⭐ ROLE-BASED REDIRECT
         if (role === "admin") {
           return navigate("/dashboard/admin/manage-lessons");
         } else {
-          return navigate("/dashboard/update-lessons");
+          return navigate(`/dashboard`);
         }
       } else {
         Swal.fire("No changes made", res.data.message);

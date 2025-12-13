@@ -7,6 +7,8 @@ import { useQueryClient } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import useRole from "../../hooks/useRole";
 import { useNavigate } from "react-router";
+import Tippy from "@tippyjs/react";
+import "tippy.js/dist/tippy.css";
 
 const AddLesson = () => {
   const { user } = useAuth();
@@ -146,14 +148,31 @@ const AddLesson = () => {
           </select>
 
           {/* ⭐ Access Level — Free users CAN SEE premium option, but blocked on submit */}
-          <select
+          {/* <select
             name="accessLevel"
             required
             className="px-6 py-2 rounded-lg w-full bg-white"
           >
             <option value="">Select Access Level</option>
             <option value="free">free</option>
-            <option value="premium">premium</option>
+
+            <option title="tile" value="premium" disabled={!isPremium}>
+              premium
+            </option>
+          </select> */}
+          <select name="accessLevel" className="w-full">
+            <option value="">Select Access Level</option>
+
+            <option value="free">Free</option>
+
+            <Tippy
+              content="Upgrade to Premium to create premium lessons"
+              disabled={isPremium}
+            >
+              <option value="premium" disabled={!isPremium}>
+                Premium
+              </option>
+            </Tippy>
           </select>
 
           <input

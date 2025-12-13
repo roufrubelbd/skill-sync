@@ -10,11 +10,12 @@ const AdminNav = () => {
         {" "}
         <img className="w-6 h-6 rounded-full" src={logo} alt="logo" />Go Home
       </NavLink>
+      
       <NavLink
-        className={({ isActive }) => (isActive ? "btn btn-accent" : "")}
-        to="/dashboard/profile"
+        className={({ isActive }) => (isActive ? "btn btn-accent btn-outline" : "")}
+        to="/dashboard"
       >
-        My Profile
+        Admin Home
       </NavLink>
       <NavLink
         className={({ isActive }) => (isActive ? "btn btn-accent" : "")}
@@ -33,6 +34,18 @@ const AdminNav = () => {
         to="/dashboard/admin/manage-users"
       >
         Manage Users
+      </NavLink>
+      <NavLink
+        className={({ isActive }) => (isActive ? "btn btn-accent" : "")}
+        to="/dashboard/admin/reported-lessons"
+      >
+        Reported Lessons
+      </NavLink>
+       <NavLink
+        className={({ isActive }) => (isActive ? "btn btn-accent" : "")}
+        to="/dashboard/profile"
+      >
+        Admin Profile
       </NavLink>
       <NavLink
         className={({ isActive }) => (isActive ? "btn btn-accent" : "")}

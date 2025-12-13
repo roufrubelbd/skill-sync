@@ -22,6 +22,7 @@ import AdminManageFeaturedLessons from "../pages/Dashboard/AdminManageFeaturedLe
 import UpdateLesson from "../pages/Dashboard/UpdateLesson";
 import PublicLessons from "../pages/Lessons/PublicLessons";
 import AuthorProfile from "../pages/Lessons/AuthorProfile";
+import AdminReportedLessons from "../pages/Dashboard/AdminReportedLessons";
 
 export const router = createBrowserRouter([
   {
@@ -162,6 +163,14 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <AdminManageFeaturedLessons />{" "}
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "admin/reported-lessons",
+        element: (
+          <PrivateRoute>
+            <AdminReportedLessons />{" "}
           </PrivateRoute>
         ),
       },
