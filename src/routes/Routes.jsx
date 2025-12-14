@@ -23,6 +23,7 @@ import UpdateLesson from "../pages/Dashboard/UpdateLesson";
 import PublicLessons from "../pages/Lessons/PublicLessons";
 import AuthorProfile from "../pages/Lessons/AuthorProfile";
 import AdminReportedLessons from "../pages/Dashboard/AdminReportedLessons";
+import AdminOnlyRoute from "./AdminOnlyRoute";
 
 export const router = createBrowserRouter([
   {
@@ -137,41 +138,41 @@ export const router = createBrowserRouter([
       {
         path: "admin/manage-users",
         element: (
-          <PrivateRoute>
+          <AdminOnlyRoute>
             <ManageUsers />
-          </PrivateRoute>
+          </AdminOnlyRoute>
         ),
       },
       {
         path: "admin/add-lesson",
         element: (
-          <PrivateRoute>
+          <AdminOnlyRoute>
             <AddLesson />{" "}
-          </PrivateRoute>
+          </AdminOnlyRoute>
         ),
       },
       {
         path: "admin/manage-lessons",
         element: (
-          <PrivateRoute>
+          <AdminOnlyRoute>
             <AdminManageLessons />{" "}
-          </PrivateRoute>
+          </AdminOnlyRoute>
         ),
       },
       {
         path: "admin/manage-featured-lessons",
         element: (
-          <PrivateRoute>
+          <AdminOnlyRoute>
             <AdminManageFeaturedLessons />{" "}
-          </PrivateRoute>
+          </AdminOnlyRoute>
         ),
       },
       {
         path: "admin/reported-lessons",
         element: (
-          <PrivateRoute>
+          <AdminOnlyRoute>
             <AdminReportedLessons />{" "}
-          </PrivateRoute>
+          </AdminOnlyRoute>
         ),
       },
       {
