@@ -1,13 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import LottieLoader from "./LottieLoader";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 
 export default function MostSavedLessons() {
+  const axiosSecure = useAxiosSecure();
 const { data: popularLessons = [], isLoading } = useQuery({
   queryKey: ["most-saved-lessons"],
   queryFn: async () =>
-    (await axios.get(`${import.meta.env.VITE_API_URL}/most-saved-lessons`)).data,
+    (await axiosSecure.get(`${import.meta.env.VITE_API_URL}/most-saved-lessons`)).data,
 });
 
 if (isLoading) <LottieLoader />;

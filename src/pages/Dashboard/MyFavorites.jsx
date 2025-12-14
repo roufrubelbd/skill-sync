@@ -5,14 +5,16 @@ import { motion } from "framer-motion";
 import LottieLoader from "../../components/LottieLoader";
 import useAuth from "../../hooks/useAuth";
 import { Link } from "react-router";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 export default function MyFavorites() {
   const { user } = useAuth();
   const queryClient = useQueryClient();
+  const axiosSecure = useAxiosSecure();
 
   const [filters, setFilters] = useState({ category: "", tone: "" });
 
-  // 1️⃣ Fetch all public lessons
+  //  Fetch all public lessons
   const { data: lessons = [], isLoading } = useQuery({
     queryKey: ["favorite-lessons"],
     queryFn: async () => {
@@ -40,7 +42,7 @@ export default function MyFavorites() {
   // 2️⃣ Remove favorite mutation
   const removeFavoriteMutation = useMutation({
     mutationFn: async (lessonId) => {
-      await axios.patch(
+      await axiosSecure.patch(
         `${import.meta.env.VITE_API_URL}/details/favorite/${lessonId}`,
         {
           email: user.email,

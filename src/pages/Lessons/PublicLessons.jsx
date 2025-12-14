@@ -5,9 +5,11 @@ import { Link } from "react-router";
 import { useState, useMemo } from "react";
 import useRole from "../../hooks/useRole";
 import { useEffect } from "react";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 export default function PublicLessons() {
   const { isPremium } = useRole();
+  const axiosSecure = useAxiosSecure();
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("all");
   const [tone, setTone] = useState("all");
@@ -30,7 +32,7 @@ export default function PublicLessons() {
   const { data: creatorData = [], isLoading: isLoadingCreatorData } = useQuery({
     queryKey: ["creator-data"],
     queryFn: async () => {
-      const result = await axios(`${import.meta.env.VITE_API_URL}/users`);
+      const result = await axiosSecure.get(`${import.meta.env.VITE_API_URL}/users`);
       return result.data;
     },
   });

@@ -1,14 +1,15 @@
 import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import Swal from "sweetalert2";
 import { Link } from "react-router";
 import LottieLoader from "../../components/LottieLoader";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 export default function AdminManageLessons() {
   const [filterCategory, setFilterCategory] = useState("all");
   const [filterVisibility, setFilterVisibility] = useState("all");
   const [filterReviewed, setFilterReviewed] = useState("all");
+  const axiosSecure = useAxiosSecure();
 
   // ================================
   // FETCH ALL LESSONS
@@ -20,7 +21,7 @@ export default function AdminManageLessons() {
   } = useQuery({
     queryKey: ["admin-all-lessons"],
     queryFn: async () => {
-      const res = await axios.get(
+      const res = await axiosSecure.get(
         `${import.meta.env.VITE_API_URL}/all-lessons`
       );
       return res.data;
@@ -33,7 +34,7 @@ export default function AdminManageLessons() {
     const { data, isLoading: isReportedLoading } = useQuery({
       queryKey: ["admin-analytics"],
       queryFn: async () => {
-        const res = await axios.get(
+        const res = await axiosSecure.get(
           `${import.meta.env.VITE_API_URL}/admin/analytics`
         );
         return res.data;
@@ -81,7 +82,7 @@ export default function AdminManageLessons() {
       confirmButtonText: "Delete",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const res = await axios.delete(
+        const res = await axiosSecure.delete(
           `${import.meta.env.VITE_API_URL}/all-lessons/${id}`
         );
 
@@ -104,7 +105,7 @@ export default function AdminManageLessons() {
       category: lesson.category,
     };
 
-    const res = await axios.post(
+    const res = await axiosSecure.post(
       `${import.meta.env.VITE_API_URL}/featured-lessons`,
       payload
     );
@@ -122,7 +123,7 @@ export default function AdminManageLessons() {
   const handleReviewToggle = async (lesson) => {
     const newStatus = !lesson.reviewed;
 
-    const res = await axios.patch(
+    const res = await axiosSecure.patch(
       `${import.meta.env.VITE_API_URL}/all-lessons/review/${lesson._id}`,
       { reviewed: newStatus }
     );

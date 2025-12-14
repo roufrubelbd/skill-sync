@@ -2,9 +2,11 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import LottieLoader from "../../components/LottieLoader";
 import useRole from "../../hooks/useRole";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 export default function FeaturedLifeLessons() {
   const queryClient = useQueryClient();
+  const axiosSecure = useAxiosSecure();
 
   // ---------------------------
   // GET USER ROLE via custom Hook
@@ -29,7 +31,7 @@ export default function FeaturedLifeLessons() {
   // ---------------------------
   const removeMutation = useMutation({
     mutationFn: async (id) => {
-      return axios.delete(
+      return axiosSecure.delete(
         `${import.meta.env.VITE_API_URL}/featured-lessons/${id}`
       );
     },

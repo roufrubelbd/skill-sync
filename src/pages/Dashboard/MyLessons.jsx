@@ -5,16 +5,18 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import useRole from "../../hooks/useRole";
 import LottieLoader from "../../components/LottieLoader";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const MyLessons = () => {
   const { user } = useAuth();
   const { isPremium } = useRole();
   const queryClient = useQueryClient();
+  const axiosSecure = useAxiosSecure();
 
   const { data: lessons = [], isLoading } = useQuery({
     queryKey: ["my-lessons", user?.email],
     queryFn: async () => {
-      const res = await axios.get(
+      const res = await axiosSecure.get(
         `${import.meta.env.VITE_API_URL}/my-lessons?email=${user?.email}`
       );
       return res.data;
@@ -28,7 +30,7 @@ const MyLessons = () => {
     // Proper string toggle
     const newVisibility = lesson.visibility === "public" ? "private" : "public";
 
-    await axios.patch(
+    await axiosSecure.patch(
       `${import.meta.env.VITE_API_URL}/all-lessons/private/${lesson._id}`,
       { visibility: newVisibility }
     );
@@ -54,7 +56,7 @@ const MyLessons = () => {
     // Proper string toggle
     const newLevel = lesson.accessLevel === "free" ? "premium" : "free";
 
-    await axios.patch(
+    await axiosSecure.patch(
       `${import.meta.env.VITE_API_URL}/all-lessons/premium/${lesson._id}`,
       { accessLevel: newLevel }
     );
@@ -76,7 +78,7 @@ const MyLessons = () => {
       confirmButtonText: "Yes, delete it!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        await axios.delete(`${import.meta.env.VITE_API_URL}/all-lessons/${id}`);
+        await axiosSecure.delete(`${import.meta.env.VITE_API_URL}/all-lessons/${id}`);
 
         Swal.fire("Deleted!", "Your lesson has been removed.", "success");
         queryClient.invalidateQueries(["my-lessons"]);

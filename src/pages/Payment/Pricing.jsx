@@ -1,8 +1,9 @@
-import axios from "axios";
 import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const Pricing = () => {
   const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
 
 
   if (user?.isPremium) {
@@ -14,7 +15,7 @@ const Pricing = () => {
   }
 
   const handleUpgrade = async () => {
-    const res = await axios.post(
+    const res = await axiosSecure.post(
       `${import.meta.env.VITE_API_URL}/create-checkout-session`,
       {
         email: user.email,

@@ -43,11 +43,30 @@ const AuthProvider = ({ children }) => {
     return signOut(auth);
   };
 
+  // useEffect(() => {
+  //   const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+  //     setUser(currentUser);
+  //     // console.log(currentUser);
+  //     setLoading(false);
+  //   });
+  //   return () => unsubscribe();
+  // }, []);
+  
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      // console.log(currentUser);
-      setLoading(false);
+      if (currentUser) {
+        currentUser.getIdToken(/* forceRefresh */ true).then((idToken) => {
+          setUser({ ...currentUser, accessToken: idToken });
+          setLoading(false);
+        }).catch((error) => {
+          console.error("Error getting ID token:", error);
+          setUser(null);
+          setLoading(false);
+        });
+      } else {
+        setUser(null);
+        setLoading(false);
+      }
     });
     return () => unsubscribe();
   }, []);

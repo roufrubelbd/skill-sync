@@ -6,10 +6,13 @@ import { useState } from "react";
 import LottieLoader from "../../components/LottieLoader";
 import useAuth from "../../hooks/useAuth";
 import useRole from "../../hooks/useRole";
+import toast from "react-hot-toast";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 export default function Profile() {
   const { user } = useAuth();
   const { role, isPremium } = useRole();
+  const axiosSecure = useAxiosSecure();
 
   const [newName, setNewName] = useState("");
   const [newPhoto, setNewPhoto] = useState("");
@@ -20,7 +23,9 @@ export default function Profile() {
   const { data: users = [] } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
-      const res = await axios(`${import.meta.env.VITE_API_URL}/users`);
+      const res = await axiosSecure.get(
+        `${import.meta.env.VITE_API_URL}/users`
+      );
       return res.data;
     },
   });
@@ -57,12 +62,11 @@ export default function Profile() {
       ...(newPhoto && { photoURL: newPhoto }),
     };
 
-    await axios.patch(
+    await axiosSecure.patch(
       `${import.meta.env.VITE_API_URL}/users/${user?.email}`,
       updateData
     );
-
-    alert("Profile updated!");
+    toast.success("Profile has been updated successfully!");
   };
 
   // Loading placeholder
@@ -182,7 +186,9 @@ export default function Profile() {
       </div>
 
       {/* MY LESSONS LIST */}
-      <h3 className="text-xl font-bold mt-10 mb-4">Your Created Lessons</h3>
+      <h3 className="text-2xl font-bold mt-10 mb-6 text-info">
+        Your Created Lessons
+      </h3>
 
       {myLessons.length === 0 ? (
         <p className="text-gray-500 text-center">
@@ -202,7 +208,7 @@ export default function Profile() {
                   y: -5,
                   boxShadow: "0 10px 30px rgba(0,0,0,0.15)",
                 }}
-                className="bg-base-200 rounded-lg overflow-hidden"
+                className="bg-green-100 rounded-lg overflow-hidden"
               >
                 {/* Image */}
                 <img src={lesson.image} className="w-full h-36 object-cover" />
@@ -219,7 +225,7 @@ export default function Profile() {
                 <div className="px-3 pb-3">
                   <Link
                     to={`/public-lessons/${lesson._id}`}
-                    className="btn btn-xs w-full"
+                    className="btn btn-warning btn-xs w-full rounded-full"
                   >
                     View Details
                   </Link>

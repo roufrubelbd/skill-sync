@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import useAuth from "../../hooks/useAuth";
@@ -10,6 +9,8 @@ import { useNavigate } from "react-router";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 import LessonSuccessLottie from "./LessonSuccessLottie";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import axios from "axios";
 
 const AddLesson = () => {
   const { user } = useAuth();
@@ -18,6 +19,7 @@ const AddLesson = () => {
   const [loading, setLoading] = useState(false);
   const queryClient = useQueryClient();
   const [showSuccess, setShowSuccess] = useState(false);
+  const axiosSecure = useAxiosSecure();
 
   const cloudinaryUrl = `https://api.cloudinary.com/v1_1/${
     import.meta.env.VITE_CLOUDINARY_CLOUD_NAME
@@ -72,7 +74,7 @@ const AddLesson = () => {
       };
 
       // Save to DB
-      const res = await axios.post(
+      const res = await axiosSecure.post(
         `${import.meta.env.VITE_API_URL}/add-lesson`,
         newLesson
       );

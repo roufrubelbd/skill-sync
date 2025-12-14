@@ -7,12 +7,14 @@ import LottieLoader from "../../components/LottieLoader";
 import { useParams, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import useRole from "../../hooks/useRole";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const UpdateLesson = () => {
   const { id } = useParams();
   const { user } = useAuth();
   const navigate = useNavigate();
   const { role, isPremium, isRoleLoading } = useRole();
+  const axiosSecure = useAxiosSecure();
 
   const [loading, setLoading] = useState(false);
   const queryClient = useQueryClient();
@@ -27,7 +29,7 @@ const UpdateLesson = () => {
     queryKey: ["update-lesson", id],
     // queryKey: ["update", id],
     queryFn: async () => {
-      const res = await axios.get(
+      const res = await axiosSecure.get(
         `${import.meta.env.VITE_API_URL}/update-lesson/${id}`
         // `${import.meta.env.VITE_API_URL}/update/${id}`
       );
@@ -42,7 +44,7 @@ const UpdateLesson = () => {
     try {
       const form = e.target;
 
-      // 🔥 PREMIUM VALIDATION
+      //  PREMIUM VALIDATION
       if (!isPremium && form.accessLevel.value === "premium") {
         return Swal.fire({
           title: "Upgrade Required",
@@ -80,7 +82,7 @@ const UpdateLesson = () => {
         updatedAt: new Date().toISOString(),
       };
 
-      const res = await axios.patch(
+      const res = await axiosSecure.patch(
         `${import.meta.env.VITE_API_URL}/update-lesson/${id}`,
         // `${import.meta.env.VITE_API_URL}/update/${id}`,
         updatedLesson
@@ -91,7 +93,7 @@ const UpdateLesson = () => {
         queryClient.invalidateQueries(["all-lessons"]);
         queryClient.invalidateQueries(["update-lesson", id]);
 
-        // ⭐ ROLE-BASED REDIRECT
+        //  ROLE-BASED REDIRECT
         if (role === "admin") {
           return navigate("/dashboard/admin/manage-lessons");
         } else {

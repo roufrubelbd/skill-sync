@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams, useNavigate } from "react-router";
 import { FaHeart, FaRegHeart, FaBookmark, FaRegBookmark } from "react-icons/fa";
@@ -9,6 +8,7 @@ import useAuth from "../../hooks/useAuth";
 import LottieLoader from "../../components/LottieLoader";
 import useRole from "../../hooks/useRole";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const LessonDetails = () => {
   const { id } = useParams();
@@ -22,13 +22,14 @@ const LessonDetails = () => {
   const [reportReason, setReportReason] = useState("");
   const [showReport, setShowReport] = useState(false);
   const [commentText, setCommentText] = useState("");
+  const axiosSecure = useAxiosSecure();
 
   //  Fetch single current Lesson
   const { data: lesson = {}, isLoading } = useQuery({
     queryKey: ["public-lesson", id],
     enabled: !!id,
     queryFn: async () => {
-      const res = await axios.get(
+      const res = await axiosSecure.get(
         `${import.meta.env.VITE_API_URL}/public-lessons/${id}`
       );
       return res.data;
@@ -39,7 +40,7 @@ const LessonDetails = () => {
   const { data: allLessons = [], isLoading: isAllLessonsLoading } = useQuery({
     queryKey: ["all-lessons"],
     queryFn: async () => {
-      const result = await axios(`${import.meta.env.VITE_API_URL}/all-lessons`);
+      const result = await axiosSecure.get(`${import.meta.env.VITE_API_URL}/all-lessons`);
       return result.data;
     },
   });
@@ -48,7 +49,7 @@ const LessonDetails = () => {
   const { data: creatorData = [], isLoading: isLoadingCreatorData } = useQuery({
     queryKey: ["creator-data"],
     queryFn: async () => {
-      const result = await axios(`${import.meta.env.VITE_API_URL}/users`);
+      const result = await axiosSecure.get(`${import.meta.env.VITE_API_URL}/users`);
       return result.data;
     },
   });
@@ -67,7 +68,7 @@ const LessonDetails = () => {
     queryKey: ["similar-lessons", lesson.category, lesson.tone],
     enabled: !!lesson?.category && !!lesson?.tone,
     queryFn: async () => {
-      const res = await axios.get(
+      const res = await axiosSecure.get(
         `${import.meta.env.VITE_API_URL}/similar-lessons/${lesson.category}/${
           lesson.tone
         }`
@@ -80,7 +81,7 @@ const LessonDetails = () => {
   const handleLike = async () => {
     if (!user) return navigate("/login");
 
-    await axios.patch(`${import.meta.env.VITE_API_URL}/details/like/${id}`, {
+    await axiosSecure.patch(`${import.meta.env.VITE_API_URL}/details/like/${id}`, {
       email: user.email,
     });
 
@@ -94,7 +95,7 @@ const LessonDetails = () => {
       return navigate("/login");
     }
 
-    await axios.patch(
+    await axiosSecure.patch(
       `${import.meta.env.VITE_API_URL}/details/favorite/${id}`,
       {
         email: user.email,
@@ -124,7 +125,7 @@ const LessonDetails = () => {
       timestamp: new Date().toISOString(),
     };
     try {
-      await axios.post(
+      await axiosSecure.post(
         `${import.meta.env.VITE_API_URL}/lesson-reports`,
         payload
       );
@@ -152,7 +153,7 @@ const LessonDetails = () => {
     queryKey: ["comments", id],
     enabled: !!id,
     queryFn: async () => {
-      const res = await axios.get(
+      const res = await axiosSecure.get(
         `${import.meta.env.VITE_API_URL}/all-lessons/${id}/comments`
       );
       return res.data;
@@ -173,7 +174,7 @@ const LessonDetails = () => {
       photo: user.photoURL,
       text: commentText,
     };
-    await axios.post(
+    await axiosSecure.post(
       `${import.meta.env.VITE_API_URL}/all-lessons/${id}/comment`,
       payload
     );

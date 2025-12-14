@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { motion } from "framer-motion";
 import {
   LineChart,
@@ -11,12 +10,14 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import LottieLoader from "../../components/LottieLoader";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 export default function AdminDashboard() {
+  const axiosSecure = useAxiosSecure();
   const { data, isLoading } = useQuery({
     queryKey: ["admin-analytics"],
     queryFn: async () => {
-      const res = await axios.get(
+      const res = await axiosSecure.get(
         `${import.meta.env.VITE_API_URL}/admin/analytics`
       );
       return res.data;

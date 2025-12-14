@@ -1,11 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import Swal from "sweetalert2";
 import LottieLoader from "../../components/LottieLoader";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const API_BASE = import.meta.env.VITE_API_URL;
 
 export default function AdminReportedLessons() {
+  const axiosSecure = useAxiosSecure();
   const {
     data: reported = [],
     isLoading,
@@ -13,7 +14,7 @@ export default function AdminReportedLessons() {
   } = useQuery({
     queryKey: ["reported-lessons"],
     queryFn: async () => {
-      const res = await axios.get(`${API_BASE}/reported-lessons`);
+      const res = await axiosSecure.get(`${API_BASE}/reported-lessons`);
       return res.data;
     },
   });
@@ -60,7 +61,7 @@ export default function AdminReportedLessons() {
 
     if (!confirm.isConfirmed) return;
 
-    await axios.delete(`${API_BASE}/reported-lessons/${lessonId}/reports`);
+    await axiosSecure.delete(`${API_BASE}/reported-lessons/${lessonId}/reports`);
     Swal.fire("Cleared", "All reports removed.", "success");
     refetch();
   };
@@ -77,7 +78,7 @@ export default function AdminReportedLessons() {
 
     if (!confirm.isConfirmed) return;
 
-    await axios.delete(`${API_BASE}/reported-lessons/${lessonId}/lesson`);
+    await axiosSecure.delete(`${API_BASE}/reported-lessons/${lessonId}/lesson`);
     Swal.fire("Deleted", "Lesson & its reports removed.", "success");
     refetch();
   };

@@ -1,18 +1,19 @@
 import { useState } from "react";
-import axios from "axios";
 import Swal from "sweetalert2";
 import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const API = import.meta.env.VITE_API_URL;
 
 export default function ManageUsers() {
   const [search, setSearch] = useState("");
+  const axiosSecure = useAxiosSecure();
 
   // Fetch users (with search)
   const { data: users = [], refetch } = useQuery({
     queryKey: ["users", search],
     queryFn: async () => {
-      const res = await axios.get(`${API}/admin/search-users?q=${search}`);
+      const res = await axiosSecure.get(`${API}/admin/search-users?q=${search}`);
       return res.data;
     },
   });
@@ -29,7 +30,7 @@ export default function ManageUsers() {
 
     if (!confirm.isConfirmed) return;
 
-    await axios.patch(`${API}/admin/users/${email}/role`);
+    await axiosSecure.patch(`${API}/admin/users/${email}/role`);
 
     Swal.fire("Success!", "User promoted to admin.", "success");
     refetch();
@@ -48,7 +49,7 @@ export default function ManageUsers() {
 
     if (!confirm.isConfirmed) return;
 
-    await axios.delete(`${API}/admin/users/${email}`);
+    await axiosSecure.delete(`${API}/admin/users/${email}`);
 
     Swal.fire("Deleted!", "User account removed.", "success");
     refetch();
