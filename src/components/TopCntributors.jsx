@@ -1,14 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
 import LottieLoader from "./LottieLoader";
-import useAxiosSecure from "../hooks/useAxiosSecure";
+import axios from "axios";
+// import useAxiosSecure from "../hooks/useAxiosSecure";
 
 
 export default function TopContributors() {
-  const axiosSecure = useAxiosSecure();
+  // const axiosSecure = useAxiosSecure();
 const { data: contributors = [], isLoading } = useQuery({
   queryKey: ["top-contributors"],
   queryFn: async () =>
-    (await axiosSecure.get(`${import.meta.env.VITE_API_URL}/top-contributors`)).data,
+    (await axios.get(`${import.meta.env.VITE_API_URL}/top-contributors`)).data,
 });
 
 if (isLoading) <LottieLoader />;
