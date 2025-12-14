@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import { Link } from "react-router";
 import LottieLoader from "../../components/LottieLoader";
+import axios from "axios";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 export default function AdminManageLessons() {
@@ -21,7 +22,7 @@ export default function AdminManageLessons() {
   } = useQuery({
     queryKey: ["admin-all-lessons"],
     queryFn: async () => {
-      const res = await axiosSecure.get(
+      const res = await axios.get(
         `${import.meta.env.VITE_API_URL}/all-lessons`
       );
       return res.data;

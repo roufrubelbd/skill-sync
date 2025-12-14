@@ -9,6 +9,7 @@ import LottieLoader from "../../components/LottieLoader";
 import useRole from "../../hooks/useRole";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import axios from "axios";
 
 const LessonDetails = () => {
   const { id } = useParams();
@@ -40,7 +41,7 @@ const LessonDetails = () => {
   const { data: allLessons = [], isLoading: isAllLessonsLoading } = useQuery({
     queryKey: ["all-lessons"],
     queryFn: async () => {
-      const result = await axiosSecure.get(`${import.meta.env.VITE_API_URL}/all-lessons`);
+      const result = await axios.get(`${import.meta.env.VITE_API_URL}/all-lessons`);
       return result.data;
     },
   });
