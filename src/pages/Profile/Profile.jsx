@@ -20,7 +20,7 @@ export default function Profile() {
   // ================================
   // 1) GET ALL USERS
   // ================================
-  const { data: users = [] } = useQuery({
+  const { data: users = [], refetch } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
       const res = await axiosSecure.get(
@@ -67,6 +67,7 @@ export default function Profile() {
       updateData
     );
     toast.success("Profile has been updated successfully!");
+    refetch();
   };
 
   // Loading placeholder
