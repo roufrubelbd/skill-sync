@@ -15,7 +15,7 @@ const PaymentCancel = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-4">
        {/* Lottie Animation */}
-      <div className="w-72 md:w-96 mb-6">
+      <div className="w-52 md:w-66 mb-6">
         <Lottie animationData={cancelAnimation} loop />
 
       </div>

@@ -15,9 +15,11 @@ const useRole = () => {
       // return result.data?.role || "user";
     },
   });
-  return {role: userData.role || "user",
+  return   {
+    role: userData.role || "user",
     isPremium: userData.isPremium || false,
-    isRoleLoading};
+    isRoleLoading
+  };
   // return [role, isRoleLoading];
 };
 

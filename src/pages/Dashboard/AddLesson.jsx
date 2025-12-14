@@ -9,14 +9,15 @@ import useRole from "../../hooks/useRole";
 import { useNavigate } from "react-router";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
+import LessonSuccessLottie from "./LessonSuccessLottie";
 
 const AddLesson = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const { isPremium, isRoleLoading } = useRole();
-
   const [loading, setLoading] = useState(false);
   const queryClient = useQueryClient();
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const cloudinaryUrl = `https://api.cloudinary.com/v1_1/${
     import.meta.env.VITE_CLOUDINARY_CLOUD_NAME
@@ -77,10 +78,16 @@ const AddLesson = () => {
       );
 
       if (res.data?.acknowledged) {
-        // toast.success("Lesson added successfully!");
-        Swal.fire("Success", "Your lesson has been added.", "success");
         queryClient.invalidateQueries(["all-lessons"]);
         form.reset();
+
+        setShowSuccess(true);
+
+        // Auto-hide success animation after 3s
+        setTimeout(() => {
+          setShowSuccess(false);
+          navigate("/dashboard/my-lessons");
+        }, 3000);
       } else {
         toast.error("Error adding lesson.");
       }
@@ -93,6 +100,10 @@ const AddLesson = () => {
   };
 
   if (loading || isRoleLoading) return <LottieLoader />;
+
+  if (showSuccess) {
+    return <LessonSuccessLottie />;
+  }
 
   return (
     <div className="container mx-auto pt-4">

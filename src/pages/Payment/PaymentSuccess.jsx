@@ -1,5 +1,5 @@
 import Lottie from "lottie-react";
-import successAnimation from "../../assets/lottie/Success animation.json";
+import successAnimation from "../../assets/lottie/success.json";
 import { Link } from "react-router";
 import useAuth from "../../hooks/useAuth";
 
@@ -9,7 +9,7 @@ const PaymentSuccess = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-[70vh] text-center px-4">
       {/* Lottie Animation */}
-      <div className="w-72 md:w-96 mb-6">
+      <div className="w-52 md:w-66 mb-6">
         <Lottie animationData={successAnimation} loop={false} />
       </div>
 
