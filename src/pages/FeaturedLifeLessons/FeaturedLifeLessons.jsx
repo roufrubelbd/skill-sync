@@ -60,16 +60,16 @@ export default function FeaturedLifeLessons() {
               className="w-full h-32 object-cover rounded"
             />
 
-            <h3 className="font-bold mt-2">{lesson.title}</h3>
-            <p className="text-xs">
-              {lesson.category} • {lesson.tone}
-            </p>
-            <Link
-              to={`/public-lessons/${lesson._id}`}
-              className="btn btn-xs btn-warning hover:btn-info rounded-full"
-            >
-              View Details
-            </Link>
+            <div className="flex justify-between items-center gap-2">
+              <h3 className="font-bold mt-2">{lesson.title}</h3>
+
+              <Link
+                to={`/public-lessons/${lesson.lessonId}`}
+                className="btn btn-xs btn-warning hover:btn-info rounded-full"
+              >
+                View Details
+              </Link>
+            </div>
 
             {/* Only admins can remove */}
             {role === "admin" && (

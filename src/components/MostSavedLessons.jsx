@@ -29,15 +29,17 @@ export default function MostSavedLessons() {
               className="w-full h-32 object-cover rounded"
             />
             <h3 className="font-bold mt-2 text-sm">{lesson.title}</h3>
-            <p className="text-sm badge badge-xl badge-warning font-extrabold mt-4">
-              {lesson.saveCount} Saves
-            </p>
-            <Link
-              to={`/public-lessons/${lesson._id}`}
-              className="btn btn-xs btn-warning hover:btn-info rounded-full"
-            >
-              View Details
-            </Link>
+            <div className="flex justify-between items-center gap-2">
+              <p className="text-sm badge badge-sm badge-accent font-extrabold mt-4">
+                {lesson.saveCount} Saves
+              </p>
+              <Link
+                to={`/public-lessons/${lesson._id}`}
+                className="btn btn-xs btn-warning hover:btn-info rounded-full"
+              >
+                View Details
+              </Link>
+            </div>
           </div>
         ))}
       </div>
