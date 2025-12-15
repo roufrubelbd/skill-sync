@@ -3,6 +3,7 @@ import axios from "axios";
 import LottieLoader from "../../components/LottieLoader";
 import useRole from "../../hooks/useRole";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { Link } from "react-router";
 
 export default function FeaturedLifeLessons() {
   const queryClient = useQueryClient();
@@ -63,6 +64,12 @@ export default function FeaturedLifeLessons() {
             <p className="text-xs">
               {lesson.category} • {lesson.tone}
             </p>
+            <Link
+              to={`/public-lessons/${lesson._id}`}
+              className="btn btn-xs btn-warning hover:btn-info rounded-full"
+            >
+              View Details
+            </Link>
 
             {/* Only admins can remove */}
             {role === "admin" && (

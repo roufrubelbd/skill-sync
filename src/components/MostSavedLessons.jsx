@@ -2,19 +2,20 @@ import { useQuery } from "@tanstack/react-query";
 import LottieLoader from "./LottieLoader";
 // import useAxiosSecure from "../hooks/useAxiosSecure";
 import axios from "axios";
-
+import { Link } from "react-router";
 
 export default function MostSavedLessons() {
   // const axiosSecure = useAxiosSecure();
-const { data: popularLessons = [], isLoading } = useQuery({
-  queryKey: ["most-saved-lessons"],
-  queryFn: async () =>
-    (await axios.get(`${import.meta.env.VITE_API_URL}/most-saved-lessons`)).data,
-});
+  const { data: popularLessons = [], isLoading } = useQuery({
+    queryKey: ["most-saved-lessons"],
+    queryFn: async () =>
+      (await axios.get(`${import.meta.env.VITE_API_URL}/most-saved-lessons`))
+        .data,
+  });
 
-if (isLoading) <LottieLoader />;
+  if (isLoading) <LottieLoader />;
 
-    return (
+  return (
     <div className="container mx-auto py-8">
       <h2 className="text-2xl font-bold text-accent mb-4">
         Most Saved Lessons
@@ -29,8 +30,14 @@ if (isLoading) <LottieLoader />;
             />
             <h3 className="font-bold mt-2 text-sm">{lesson.title}</h3>
             <p className="text-sm badge badge-xl badge-warning font-extrabold mt-4">
-               {lesson.saveCount} Saves
+              {lesson.saveCount} Saves
             </p>
+            <Link
+              to={`/public-lessons/${lesson._id}`}
+              className="btn btn-xs btn-warning hover:btn-info rounded-full"
+            >
+              View Details
+            </Link>
           </div>
         ))}
       </div>

@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useParams, useNavigate } from "react-router";
+import { useParams, useNavigate, Link } from "react-router";
 import { FaHeart, FaRegHeart, FaBookmark, FaRegBookmark } from "react-icons/fa";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -41,7 +41,9 @@ const LessonDetails = () => {
   const { data: allLessons = [], isLoading: isAllLessonsLoading } = useQuery({
     queryKey: ["all-lessons"],
     queryFn: async () => {
-      const result = await axios.get(`${import.meta.env.VITE_API_URL}/all-lessons`);
+      const result = await axios.get(
+        `${import.meta.env.VITE_API_URL}/all-lessons`
+      );
       return result.data;
     },
   });
@@ -50,7 +52,9 @@ const LessonDetails = () => {
   const { data: creatorData = [], isLoading: isLoadingCreatorData } = useQuery({
     queryKey: ["creator-data"],
     queryFn: async () => {
-      const result = await axiosSecure.get(`${import.meta.env.VITE_API_URL}/users`);
+      const result = await axiosSecure.get(
+        `${import.meta.env.VITE_API_URL}/users`
+      );
       return result.data;
     },
   });
@@ -82,9 +86,12 @@ const LessonDetails = () => {
   const handleLike = async () => {
     if (!user) return navigate("/login");
 
-    await axiosSecure.patch(`${import.meta.env.VITE_API_URL}/details/like/${id}`, {
-      email: user.email,
-    });
+    await axiosSecure.patch(
+      `${import.meta.env.VITE_API_URL}/details/like/${id}`,
+      {
+        email: user.email,
+      }
+    );
 
     queryClient.invalidateQueries(["details", id]);
   };
@@ -363,6 +370,12 @@ const LessonDetails = () => {
               <p className="text-xs font-semibold line-clamp-2">
                 {simLess.title}
               </p>
+              <Link
+                to={`/public-lessons/${simLess._id}`}
+                className="btn btn-xs btn-warning hover:btn-info rounded-full"
+              >
+                View Details
+              </Link>
             </div>
           ))}
         </div>
