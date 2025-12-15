@@ -60,9 +60,9 @@ export default function FeaturedLifeLessons() {
               className="w-full h-32 object-cover rounded"
             />
 
-            <div className="flex justify-between items-center gap-2">
-              <h3 className="font-bold mt-2">{lesson.title}</h3>
-
+            <h3 className="font-bold mt-2">{lesson.title}</h3>
+            <div className="flex justify-between items-center gap-2 mt-2">
+              <p className="p-1 rounded bg-green-100">{lesson.category}</p>
               <Link
                 to={`/public-lessons/${lesson.lessonId}`}
                 className="btn btn-xs btn-warning hover:btn-info rounded-full"

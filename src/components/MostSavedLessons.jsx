@@ -29,8 +29,8 @@ export default function MostSavedLessons() {
               className="w-full h-32 object-cover rounded"
             />
             <h3 className="font-bold mt-2 text-sm">{lesson.title}</h3>
-            <div className="flex justify-between items-center gap-2">
-              <p className="text-sm badge badge-sm badge-accent font-extrabold mt-4">
+            <div className="flex justify-between items-center gap-2  mt-4">
+              <p className="text-sm badge badge-sm badge-accent font-extrabold">
                 {lesson.saveCount} Saves
               </p>
               <Link
