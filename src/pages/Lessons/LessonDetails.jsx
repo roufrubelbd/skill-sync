@@ -177,7 +177,7 @@ const LessonDetails = () => {
 
     if (!commentText.trim()) return toast.error("Comment cannot be empty");
     const payload = {
-      name: user.displayName || "Anonymous",
+      name: user?.displayName || "Anonymous",
       email: user.email,
       photo: user.photoURL,
       text: commentText,
@@ -306,7 +306,7 @@ const LessonDetails = () => {
                   className="w-10 h-10 rounded-full"
                 />
                 <div>
-                  <h4 className="font-semibold text-sm">{comment.name}</h4>
+                  <h4 className="font-semibold text-sm">{comment?.name}</h4>
                   <p className="text-sm">{comment.text}</p>
                   <span className="text-xs text-gray-500">
                     {new Date(comment.timestamp).toLocaleString()}
@@ -323,7 +323,7 @@ const LessonDetails = () => {
         <h4 className="text-lg">
           Author Name:{" "}
           <span className=" text-accent font-bold uppercase">
-            {creator.name}
+            {creator?.name}
           </span>
         </h4>
         <img
