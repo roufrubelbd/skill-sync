@@ -43,12 +43,15 @@ const AuthorProfile = () => {
   }
 
   return <div className="mb-6 p-4"> 
- <div className="flex flex-col lg:flex-row justify-center items-center gap-2 lg:gap-6 my-6 lg:bg-amber-100 rounded-lg lg:py-2 lg:px-4 w-full lg:w-1/2 lg:mx-auto">
+  {/*  AUTHOR INFO */}
+  <h2 className="text-center py-2 text-2xl font-bold text-info">Author Info</h2>
+ <div className="flex flex-col lg:flex-row justify-center items-center gap-2 lg:gap-4 my-6 lg:bg-amber-100 rounded-lg lg:py-2 lg:px-4 w-full lg:w-1/2 lg:mx-auto">
      <div>
         <img src={author.photoURL} className="w-12 h-12 rounded-full mx-auto bg-warning p-1" alt={author.name} />
      </div>
   <div>
-    <span className="text-2xl">Author: <span className="font-bold text-accent uppercase">{author.name}</span></span>
+    <p className="text-xl font-bold text-accent uppercase">
+       {author.name}</p>
   </div>
   <div>
     <span className="badge badge-warning badge-xl font-bold">Total lessons: {lessons.length}</span>

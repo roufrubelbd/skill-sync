@@ -17,10 +17,13 @@ const MainLayout = () => {
       {isLoading ? (
         <LottieLoader />
       ) : (
-        <div className="min-h-screen w-11/12 mx-auto">
+        <div className="bg-base-200">
+          <div className="min-h-screen w-11/12 mx-auto">
         {/* <div className="min-h-[calc(100vh-285px)]"> */}
           <Outlet />
         </div>
+        </div>
+
       )}
       <Footer />
     </>

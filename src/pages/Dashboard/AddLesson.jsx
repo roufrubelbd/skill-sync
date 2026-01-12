@@ -66,11 +66,11 @@ const AddLesson = () => {
         accessLevel: form.accessLevel.value,
         image: imageUrl,
         createdByEmail: user?.email,
-        likes: [],
-        favorites: [],
-        comments: [],
-        createdAt: new Date().toLocaleDateString(),
-        updatedAt: new Date().toLocaleDateString(),
+        // likes: [],
+        // favorites: [],
+        // comments: [],
+        // createdAt: new Date().toLocaleDateString(),
+        // updatedAt: new Date().toLocaleDateString(),
       };
 
       // Save to DB

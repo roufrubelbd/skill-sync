@@ -78,9 +78,9 @@ export default function AdminDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-10">
         <GrowthChart
           title="Lesson Growth (Last 7 Days)"
-          data={data.lessonGrowth}
+          data={data?.lessonGrowth}
         />
-        <GrowthChart title="User Growth (Last 7 Days)" data={data.userGrowth} />
+        <GrowthChart title="User Growth (Last 7 Days)" data={data?.userGrowth} />
       </div>
     </div>
   );

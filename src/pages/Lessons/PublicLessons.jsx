@@ -5,11 +5,11 @@ import { Link } from "react-router";
 import { useState, useMemo } from "react";
 import useRole from "../../hooks/useRole";
 import { useEffect } from "react";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
+// import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 export default function PublicLessons() {
   const { isPremium } = useRole();
-  const axiosSecure = useAxiosSecure();
+  // const axiosSecure = useAxiosSecure();
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("all");
   const [tone, setTone] = useState("all");
@@ -32,7 +32,7 @@ export default function PublicLessons() {
   const { data: creatorData = [], isLoading: isLoadingCreatorData } = useQuery({
     queryKey: ["creator-data"],
     queryFn: async () => {
-      const result = await axiosSecure.get(`${import.meta.env.VITE_API_URL}/users`);
+      const result = await axios.get(`${import.meta.env.VITE_API_URL}/users`);
       return result.data;
     },
   });
@@ -52,7 +52,7 @@ export default function PublicLessons() {
       return matchesSearch && matchesCategory && matchesTone;
     });
 
-    // 🔽 SORT
+    //  SORT
     if (sortBy === "newest") {
       lessons.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     }
@@ -73,9 +73,16 @@ export default function PublicLessons() {
     currentPage * itemsPerPage
   );
 
+  // useEffect(() => {
+  //   setCurrentPage(1);
+  // }, [search, category, tone, sortBy]);
+
   useEffect(() => {
+  if (currentPage !== 1) {
     setCurrentPage(1);
-  }, [search, category, tone, sortBy]);
+  }
+}, [search, category, tone, sortBy]);
+
 
   const container = {
     hidden: { opacity: 0 },
@@ -175,11 +182,11 @@ export default function PublicLessons() {
                 key={lesson._id}
                 variants={card}
                 whileHover={{
-                  scale: 1.03,
-                  y: -6,
-                  boxShadow: "0 10px 25px rgba(0,0,0,0.12)",
+                  scale: 1.01,
+                  y: -2,
+                  boxShadow: "0 2px 2px rgba(0,0,0,0.12)",
                 }}
-                className="bg-blue-50 rounded-lg overflow-hidden relative"
+                className="bg-base-100 rounded-lg overflow-hidden relative"
               >
                 {/*  Image */}
                 <div className="relative overflow-hidden">

@@ -1,5 +1,5 @@
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, Autoplay, EffectFade } from "swiper/modules";
+import { Pagination, Autoplay, EffectFade } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -38,9 +38,9 @@ const Banner = () => {
   if (loading) return <LottieLoader />;
 
   return (
-    <div className="w-full md:h-[40vh] container mx-auto relative mt-4 mb-4">
+    <div className="w-full md:h-[40vh] container mx-auto relative pt-4 pb-4">
       <Swiper
-        modules={[Navigation, Pagination, Autoplay, EffectFade]}
+        modules={[ Pagination, Autoplay, EffectFade]}
         navigation
         pagination={{ clickable: true }}
         autoplay={{ delay: 4000, disableOnInteraction: false }}
@@ -92,7 +92,7 @@ const Banner = () => {
                   transition={{ duration: 1, delay: 0.4 }}
                 >
                   <Link to="/public-lessons">
-                    <button className="mt-2 btn btn-warning btn-xs md:btn-sm px-4 rounded-full shadow hover:shadow-emerald-400/40 transition-all duration-300">
+                    <button className="mt-2 btn btn-warning btn-xs md:btn-sm px-4 rounded-full shadow hover:shadow-emerald-400/40 transition-all duration-300 hover:btn-accent">
                       explore →
                     </button>
                   </Link>

@@ -17,15 +17,26 @@ export default function FeaturedLifeLessons() {
   // ---------------------------
   // FETCH FEATURED LESSONS
   // ---------------------------
-  const { data: featured = [], isLoading } = useQuery({
-    queryKey: ["featured-lessons"],
-    queryFn: async () => {
+  const { data: featured = [], isLoading, error } = useQuery({
+  queryKey: ["featured-lessons"],
+  queryFn: async () => {
+    try {
       const res = await axios.get(
         `${import.meta.env.VITE_API_URL}/featured-lessons`
       );
-      return res.data;
-    },
-  });
+      return Array.isArray(res.data) ? res.data : [];
+    } catch (error) {
+      console.error("Error fetching featured lessons:", error);
+      throw error;
+    }
+  },
+});
+
+// if (isLoading) return <LottieLoader />;
+
+//   console.log(featured);
+// console.log(Array.isArray(featured));
+
 
   // ---------------------------
   // REMOVE FEATURED LESSON
@@ -42,6 +53,7 @@ export default function FeaturedLifeLessons() {
   });
 
   if (isLoading) return <LottieLoader />;
+  if (error) return <div>Error loading featured lessons</div>;
 
   return (
     <div className="container mx-auto p-4">
@@ -50,17 +62,19 @@ export default function FeaturedLifeLessons() {
       </h2>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-        {featured.map((lesson) => (
+        {
+         featured.map((lesson) => (
           <div
             key={lesson._id}
-            className="bg-base-200 p-3 rounded-lg shadow border border-gray-200"
+            className="bg-base-100 rounded hover:shadow "
           >
             <img
               src={lesson.image}
-              className="w-full h-32 object-cover rounded"
+              className="w-full h-32 object-cover rounded-t"
             />
 
-            <h3 className="font-bold mt-2">{lesson.title}</h3>
+            <div className="p-3">
+              <h3 className="font-bold mt-2">{lesson.title}</h3>
             <div className="flex justify-between items-center gap-2 mt-2">
               <p className="p-1 rounded bg-green-100">{lesson.category}</p>
               <Link
@@ -80,8 +94,10 @@ export default function FeaturedLifeLessons() {
                 Remove from Featured
               </button>
             )}
+            </div>
           </div>
-        ))}
+        ))
+        }
       </div>
     </div>
   );

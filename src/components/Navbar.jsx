@@ -18,7 +18,9 @@ const Navbar = () => {
     <>
       <NavLink
         className={({ isActive }) =>
-          isActive ? "text-info underline font-bold" : ""
+          isActive
+            ? "text-white bg-accent/40 px-1 md:px-2 font-bold"
+            : "text-white "
         }
         to="/"
       >
@@ -26,7 +28,9 @@ const Navbar = () => {
       </NavLink>
       <NavLink
         className={({ isActive }) =>
-          isActive ? "text-info underline font-bold" : ""
+          isActive
+            ? "text-white bg-accent/40 px-1 md:px-2 font-bold"
+            : "text-white "
         }
         to="/public-lessons"
       >
@@ -36,7 +40,9 @@ const Navbar = () => {
         <>
           <NavLink
             className={({ isActive }) =>
-              isActive ? "text-info underline font-bold md:pl-4" : "md:pl-4"
+              isActive
+                ? "text-white bg-accent/40 px-1 md:px-2 font-bold"
+                : "text-white "
             }
             to="/dashboard/add-lesson"
           >
@@ -44,7 +50,9 @@ const Navbar = () => {
           </NavLink>
           <NavLink
             className={({ isActive }) =>
-              isActive ? "text-info underline font-bold" : ""
+              isActive
+                ? "text-white bg-accent/40 px-1 md:px-2 font-bold"
+                : "text-white"
             }
             to="/dashboard/my-lessons"
           >
@@ -57,16 +65,38 @@ const Navbar = () => {
           Premium <MdWorkspacePremium />
         </span>
       ) : (
-        <NavLink
-          className={({ isActive }) =>
-            isActive
-              ? " underline font-bold badge badge-warning"
-              : "badge badge-warning badge-lg"
-          }
-          to="/pricing"
-        >
-          Upgrade
-        </NavLink>
+        <>
+          <NavLink
+            className={({ isActive }) =>
+              isActive
+                ? "text-white bg-accent/40 px-1 md:px-2 font-bold"
+                : "text-white"
+            }
+            to="/about"
+          >
+            <li>About</li>
+          </NavLink>
+          <NavLink
+            className={({ isActive }) =>
+              isActive
+                ? "text-white bg-accent/40 px-1 md:px-2 font-bold"
+                : "text-white"
+            }
+            to="/contact"
+          >
+            <li>Contact Us</li>
+          </NavLink>
+          <NavLink
+            className={({ isActive }) =>
+              isActive
+                ? "btn btn-warning  btn-xs hover:btn-accent ml-3"
+                : "btn btn-warning  btn-xs hover:btn-accent ml-3"
+            }
+            to="/pricing"
+          >
+            Upgrade
+          </NavLink>
+        </>
       )}
     </>
   );
@@ -82,7 +112,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className=" bg-base-100 shadow-sm">
+    <div className=" bg-neutral shadow-sm">
       <div className="navbar w-11/12 mx-auto">
         <div className="navbar-start">
           <div className="dropdown">

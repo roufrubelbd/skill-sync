@@ -28,6 +28,7 @@ export default function AdminManageLessons() {
       return res.data;
     },
   });
+  // console.log(lessons);
 
   // ====================
   // fetch all reported lessons

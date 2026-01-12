@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 
 const Logo = () => {
     return (
-        <Link to="/" className="text-info flex items-center gap-1"><RiBrainFill size={24}/><span className=" text-xl font-bold hidden md:block">SKILL SYNC</span></Link>
+        <Link to="/" className="text-accent flex items-center gap-1"><RiBrainFill size={24}/><span className=" text-xl font-black hidden md:block">SKILL SYNC</span></Link>
     );
 };
 

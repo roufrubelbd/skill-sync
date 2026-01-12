@@ -1,16 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import LottieLoader from "./LottieLoader";
-// import useAxiosSecure from "../hooks/useAxiosSecure";
 import axios from "axios";
 import { Link } from "react-router";
 
 export default function MostSavedLessons() {
-  // const axiosSecure = useAxiosSecure();
   const { data: popularLessons = [], isLoading } = useQuery({
     queryKey: ["most-saved-lessons"],
     queryFn: async () =>
-      (await axios.get(`${import.meta.env.VITE_API_URL}/most-saved-lessons`))
-        .data,
+      (await axios.get(`${import.meta.env.VITE_API_URL}/most-saved-lessons`)).data,
   });
 
   if (isLoading) <LottieLoader />;
@@ -22,7 +19,8 @@ export default function MostSavedLessons() {
       </h2>
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {popularLessons.map((lesson) => (
+        {
+        Array.isArray(popularLessons) && popularLessons.map((lesson) => (
           <div key={lesson._id} className="p-3 bg-base-200 rounded-lg shadow">
             <img
               src={lesson.image}
@@ -41,7 +39,8 @@ export default function MostSavedLessons() {
               </Link>
             </div>
           </div>
-        ))}
+        ))
+        }
       </div>
     </div>
   );

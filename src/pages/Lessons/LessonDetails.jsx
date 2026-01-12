@@ -30,7 +30,7 @@ const LessonDetails = () => {
     queryKey: ["public-lesson", id],
     enabled: !!id,
     queryFn: async () => {
-      const res = await axiosSecure.get(
+      const res = await axios.get(
         `${import.meta.env.VITE_API_URL}/public-lessons/${id}`
       );
       return res.data;
@@ -52,7 +52,7 @@ const LessonDetails = () => {
   const { data: creatorData = [], isLoading: isLoadingCreatorData } = useQuery({
     queryKey: ["creator-data"],
     queryFn: async () => {
-      const result = await axiosSecure.get(
+      const result = await axios.get(
         `${import.meta.env.VITE_API_URL}/users`
       );
       return result.data;
@@ -61,7 +61,7 @@ const LessonDetails = () => {
 
   // creator data
   const creator = creatorData.find(
-    (user) => user?.email === lesson?.createdByEmail
+    (u) => u?.email === lesson?.createdByEmail
   );
 
   const lessonsByCreator = allLessons.filter(
@@ -73,7 +73,7 @@ const LessonDetails = () => {
     queryKey: ["similar-lessons", lesson.category, lesson.tone],
     enabled: !!lesson?.category && !!lesson?.tone,
     queryFn: async () => {
-      const res = await axiosSecure.get(
+      const res = await axios.get(
         `${import.meta.env.VITE_API_URL}/similar-lessons/${lesson.category}/${
           lesson.tone
         }`
@@ -161,7 +161,7 @@ const LessonDetails = () => {
     queryKey: ["comments", id],
     enabled: !!id,
     queryFn: async () => {
-      const res = await axiosSecure.get(
+      const res = await axios.get(
         `${import.meta.env.VITE_API_URL}/all-lessons/${id}/comments`
       );
       return res.data;
@@ -191,6 +191,9 @@ const LessonDetails = () => {
     toast.success("Comment posted!");
   };
 
+  const isLocked = lesson?.accessLevel === "premium" && !isPremium;
+
+
   if (
     loading ||
     isLoading ||
@@ -205,7 +208,7 @@ const LessonDetails = () => {
       {/*  MAIN CONTENT */}
       <div className="md:col-span-2 space-y-6">
         {/*  Premium Lock */}
-        {!user && !isPremium && (
+        {isLocked && (
           <div className="bg-yellow-100 border p-4 rounded text-center">
             This is a Premium Lesson
             <button
@@ -222,14 +225,14 @@ const LessonDetails = () => {
           <img
             src={lesson?.image || "https://via.placeholder.com/600x400"}
             className={`w-full h-[350px] object-cover rounded ${
-              !user && !isPremium && "blur-md"
+              isLocked && "blur-md"
             }`}
           />
         </div>
 
         {/*  Lesson Info */}
         <h1 className="text-3xl font-bold">{lesson.title}</h1>
-        <p className={`text-gray-700 ${!user && !isPremium && "blur-md"}`}>
+        <p className={`text-gray-700 ${isLocked && "blur-md"}`}>
           {lesson.description}
         </p>
 

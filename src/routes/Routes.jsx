@@ -24,6 +24,8 @@ import PublicLessons from "../pages/Lessons/PublicLessons";
 import AuthorProfile from "../pages/Lessons/AuthorProfile";
 import AdminReportedLessons from "../pages/Dashboard/AdminReportedLessons";
 import AdminOnlyRoute from "./AdminOnlyRoute";
+import About from "../components/About";
+import Contact from "../components/Contact";
 
 export const router = createBrowserRouter([
   {
@@ -41,11 +43,15 @@ export const router = createBrowserRouter([
       },
       {
         path: "public-lessons/:id",
-        element: (
-          <PrivateRoute>
-            <LessonDetails />
-          </PrivateRoute>
-        ),
+        element: <LessonDetails />
+      },
+      {
+        path: "about",
+        element: <About />
+      },
+      {
+        path: "contact",
+        element: <Contact/>
       },
       {
         path: "pricing",
@@ -57,11 +63,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "profile",
-        element: (
-          <PrivateRoute>
-            <AuthorProfile />
-          </PrivateRoute>
-        ),
+        element: <AuthorProfile />
       },
       {
         path: "payment/success",
@@ -177,11 +179,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "profile",
-        element: (
-          <PrivateRoute>
-            <Profile />
-          </PrivateRoute>
-        ),
+        element: <Profile />
       },
     ],
   },

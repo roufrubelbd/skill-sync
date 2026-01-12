@@ -79,7 +79,7 @@ const UpdateLesson = () => {
         visibility: form.visibility.value,
         accessLevel: form.accessLevel.value,
         image: imageUrl,
-        updatedAt: new Date().toISOString(),
+        // updatedAt: new Date().toISOString(),
       };
 
       const res = await axiosSecure.patch(
